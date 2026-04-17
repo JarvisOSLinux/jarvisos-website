@@ -1,3 +1,7 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
 # JARVIS OS Website — Claude Context
 
 ## Project overview
@@ -95,7 +99,35 @@ github.com/jarvisos/
 
 ## Conventions
 - Keep pages modular — shared nav and footer as Astro components
-- Pull release data from GitHub API at build time so download page always shows latest ISO
+- GitHub API data (releases, contributors) is fetched at **runtime via client-side JS**, not at build time — see `download.astro` and `contributors.astro` for the pattern
 - Contributors page fetches from GitHub API (don't hardcode contributor lists)
 - All internal links use Astro's file-based routing
-- Docs pages written in Markdown (`.md`) inside `src/content/docs/`
+- Use the `@/` path alias (maps to `src/`) for all internal imports
+
+---
+
+## Development commands
+
+```bash
+npm install       # install dependencies (Astro 5.x is the only dep)
+npm run dev       # start dev server at http://localhost:4321
+npm run build     # build static output to dist/
+npm run preview   # preview the built output locally
+```
+
+No linter or formatter is configured. TypeScript is set to strict mode via `astro/tsconfigs/strict`.
+
+---
+
+## Architecture
+
+**Every page** wraps with `src/layouts/BaseLayout.astro`, which injects `<Nav>`, the page slot, and `<Footer>`. Pass `title` (required) and `description` (optional) as props.
+
+**Shared components** live in `src/components/`:
+- `SubsystemCard.astro` — props: `name`, `repo`, `description`, `tags[]`
+- `ThreatCard.astro` — props: `number`, `title`, `severity`, `description`
+- Severity values: `"critical"` | `"high"` | `"medium"` | `"novel"`
+
+**Global styles** are in `src/styles/global.css`. Use the existing utility classes (`.container`, `.section`, `.card`, `.btn-primary`, `.btn-outline`, `.grid-2/3/4`, `.tag-*`) rather than adding inline styles. The 768 px breakpoint is the only responsive breakpoint.
+
+**GitHub API fetching** in `download.astro` and `contributors.astro` is plain `fetch()` in a `<script>` tag that runs in the browser — there is no server and no build-time secret handling.

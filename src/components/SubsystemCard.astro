@@ -9,9 +9,9 @@ interface Props {
 const { name, repo, description, tags = [] } = Astro.props;
 ---
 
-<a href={`https://github.com/jarvisos/${repo}`} target="_blank" rel="noopener noreferrer" class="card subsystem-card">
+<a href={`https://github.com/${repo}`} target="_blank" rel="noopener noreferrer" class="card subsystem-card">
   <div class="subsystem-header">
-    <span class="mono subsystem-repo">jarvisos/{repo}</span>
+    <span class="mono subsystem-repo">{repo}</span>
   </div>
   <h3 class="subsystem-name">{name}</h3>
   <p class="subsystem-desc">{description}</p>

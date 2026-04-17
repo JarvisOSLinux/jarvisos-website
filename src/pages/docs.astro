@@ -2,13 +2,15 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const buildScripts = [
-  { num: "01", title: "Base System", desc: "Bootstrap the base Arch Linux system with essential packages and configuration." },
-  { num: "02", title: "User Setup", desc: "Create user accounts, set permissions, and configure sudo policies." },
-  { num: "03", title: "Desktop Environment", desc: "Install and configure KDE Plasma 6 with Wayland session defaults." },
-  { num: "04", title: "AI Stack", desc: "Install Ollama, configure local LLM inference, and set up model defaults." },
-  { num: "05", title: "Jarvis Core", desc: "Deploy the jarvis-core daemon, CLI tools, and session management." },
-  { num: "06", title: "MCP Integration", desc: "Set up the MCP server registry, tool permissions, and orchestration layer." },
-  { num: "07", title: "ISO Packaging", desc: "Package everything into a bootable ISO with Calamares installer." },
+  { num: "00", title: "Install Prerequisites", desc: "Cross-distro installer for all build tools (Arch, Fedora, Debian, openSUSE). Validates arch-chroot, squashfs-tools, xorriso, p7zip, Rust/Cargo, and QEMU before proceeding." },
+  { num: "01", title: "Extract ISO", desc: "Uses 7z to unpack the CachyOS desktop ISO, relocates the EFI boot image, and records the source UUID for the final rebuild." },
+  { num: "02", title: "Unsquash Filesystem", desc: "Decompresses airootfs.sfs into a writable rootfs, cleans stale mounts, validates critical directories, and prepares chroot mount points." },
+  { num: "03", title: "Bake Wayland", desc: "Installs KDE Plasma 6 on Wayland into the extracted rootfs via chroot." },
+  { num: "03b", title: "Build Kernel", desc: "Compiles the custom linux-jarvisos kernel (6.19-stable) with the /dev/jarvis character device and associated kernel subsystems. Parallel build via nproc." },
+  { num: "04", title: "Bake JARVIS", desc: "Integrates the full AI stack into the rootfs: Ollama, Project-JARVIS (Python + venv), dmcp and dispatch Rust binaries, systemd services, and the first-boot interactive setup script." },
+  { num: "05", title: "Bake Calamares", desc: "Deploys the graphical installer configuration package into the rootfs for guided hardware installation." },
+  { num: "06", title: "Squash Filesystem", desc: "Recompresses the modified rootfs back into a SquashFS image (airootfs.sfs)." },
+  { num: "07", title: "Rebuild ISO", desc: "Assembles the final bootable ISO from the modified filesystem, EFI image, and boot configuration. Supports both BIOS and UEFI boot." },
 ];
 ---
 
@@ -46,16 +48,18 @@ qemu-system-x86_64 -m 4G -smp 4 -cdrom jarvisos-*.iso</code></pre>
         </div>
         <div class="card">
           <h3>Option B: Build from Source</h3>
-          <p>Clone the repo and run the full seven-script build pipeline on an Arch Linux host.</p>
-          <pre class="mono code-block"><code>git clone https://github.com/jarvisos/jarvisos.git
-cd jarvisos
+          <p>Clone the repo with submodules and run the build pipeline. Requires an <strong>Arch-based host</strong> (uses pacman/makepkg).</p>
+          <pre class="mono code-block"><code>git clone --recurse-submodules \
+  https://github.com/YakupAtahanov/jarvisos.git
+cd jarvisos/scripts
 
-# Run each build stage sequentially
-sudo ./01-base-system.sh
-sudo ./02-user-setup.sh
-# ... through 07</code></pre>
+# Install build prerequisites first
+sudo bash 00-install-prereq.sh
+
+# Then build with Makefile
+make all</code></pre>
           <a
-            href="https://github.com/jarvisos/jarvisos"
+            href="https://github.com/YakupAtahanov/jarvisos"
             class="btn btn-outline"
             style="margin-top: var(--space-lg);"
             target="_blank"
@@ -72,10 +76,11 @@ sudo ./02-user-setup.sh
   <section class="section">
     <div class="container">
       <span class="section-label">Build System</span>
-      <h2 style="margin-bottom: var(--space-xl);">The Seven-Script Pipeline</h2>
+      <h2 style="margin-bottom: var(--space-xl);">The Build Pipeline</h2>
       <p style="margin-bottom: var(--space-2xl);">
-        JARVIS OS is built through a sequence of seven modular scripts. Each script handles
-        one stage of the build and can be audited independently.
+        JARVIS OS is built through a sequence of modular scripts (00 through 07, plus a
+        kernel build step 03b). Each script handles one stage and can be audited independently.
+        All scripts live in the <code>scripts/</code> directory and are orchestrated by a Makefile.
       </p>
       <div class="pipeline">
         {buildScripts.map((s) => (
@@ -99,8 +104,9 @@ sudo ./02-user-setup.sh
       <div class="card">
         <p style="margin-bottom: var(--space-lg);">
           Once booted into JARVIS OS, interact with the AI through the <code>jarvis</code>
-          command. The daemon connects to the local Ollama instance and has access to MCP
-          tools based on your configured permissions.
+          command. The agent communicates with the custom kernel via <code>/dev/jarvis</code>,
+          connects to the local Ollama instance, and dispatches actions through the MCP layer
+          according to the four-tier security policy (SAFE → ELEVATED → DANGEROUS → FORBIDDEN).
         </p>
         <pre class="mono code-block"><code># Start a session
 jarvis
@@ -110,7 +116,7 @@ jarvis
 # - Execute commands with configured privilege levels
 # - Maintain conversational context across interactions</code></pre>
         <p class="mono text-muted" style="margin-top: var(--space-lg); font-size: 0.8rem;">
-          See <a href="https://github.com/jarvisos/jarvis-core" target="_blank" rel="noopener noreferrer">jarvis-core</a> for full CLI documentation.
+          See <a href="https://github.com/YakupAtahanov/Project-JARVIS" target="_blank" rel="noopener noreferrer">Project-JARVIS</a> for full documentation.
         </p>
       </div>
     </div>

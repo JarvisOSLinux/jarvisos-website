@@ -5,31 +5,38 @@ import SubsystemCard from "../components/SubsystemCard.astro";
 const subsystems = [
   {
     name: "JARVIS OS Build System",
-    repo: "jarvisos",
+    repo: "YakupAtahanov/jarvisos",
     description:
-      "The main build pipeline — seven modular scripts (01 through 07) that transform a base Arch Linux ISO into a bootable AI-native operating system. Each stage is isolated and reproducible.",
-    tags: ["build-pipeline", "arch-linux", "iso"],
+      "The main build pipeline — modular scripts (00 through 07) that transform a CachyOS desktop ISO into a bootable AI-native operating system. Orchestrated via Makefile; each stage is isolated and reproducible.",
+    tags: ["build-pipeline", "cachyos", "iso", "makefile"],
   },
   {
-    name: "Jarvis Core",
-    repo: "jarvis-core",
+    name: "Project-JARVIS",
+    repo: "YakupAtahanov/Project-JARVIS",
     description:
-      "The AI daemon and CLI. This is the `jarvis` command that users interact with — the bridge between the LLM and the operating system. Manages sessions, context, and tool dispatch.",
-    tags: ["daemon", "cli", "ollama"],
+      "The AI assistant core — the bridge between the LLM and the operating system. Handles voice input (Vosk STT), text-to-speech (Piper), Ollama inference, and the four-tier security policy engine.",
+    tags: ["ai-daemon", "python", "ollama", "voice"],
   },
   {
-    name: "MCP Servers",
-    repo: "mcp-servers",
+    name: "dmcp",
+    repo: "YakupAtahanov/dmcp",
     description:
-      "The Model Context Protocol orchestration layer and tool registry. Defines the tools the LLM can invoke, manages permissions, and handles the create/modify/delete lifecycle for system tools.",
-    tags: ["mcp", "orchestration", "tools"],
+      "Rust binary that manages the MCP (Model Context Protocol) server registry. Handles tool registration, permission enforcement, and the lifecycle of MCP servers that the LLM can invoke.",
+    tags: ["mcp", "rust", "orchestration"],
   },
   {
-    name: "Calamares Config",
-    repo: "calamares-config",
+    name: "dispatch",
+    repo: "YakupAtahanov/dispatch",
     description:
-      "The Calamares graphical installer configuration package. Enables one-click installation of JARVIS OS to physical hardware with automatic partitioning and post-install setup.",
-    tags: ["installer", "calamares", "deployment"],
+      "Rust task orchestrator for MCP servers. Coordinates tool execution across the MCP layer, routes LLM-requested actions, and ensures privilege constraints are respected during dispatch.",
+    tags: ["rust", "task-orchestrator", "mcp"],
+  },
+  {
+    name: "linux-jarvisos",
+    repo: "majdaltouzach/linux",
+    description:
+      "The custom Linux kernel (based on 6.19-stable) with the JARVIS kernel module built in. Provides the /dev/jarvis character device for direct kernel-level AI communication, plus jarvis_sysmon, jarvis_policy, jarvis_keys, and jarvis_dibs subsystems.",
+    tags: ["kernel", "/dev/jarvis", "kernel-module"],
   },
 ];
 ---
@@ -44,9 +51,9 @@ const subsystems = [
       <h1 class="section-title">Subsystems</h1>
       <p class="sub-intro">
         JARVIS OS is built as a set of modular, independently maintained subsystems. Each
-        component lives in its own repository under the
-        <a href="https://github.com/jarvisos" target="_blank" rel="noopener noreferrer">
-          jarvisos GitHub organization</a>.
+        component lives in its own repository, primarily under the
+        <a href="https://github.com/YakupAtahanov" target="_blank" rel="noopener noreferrer">
+          YakupAtahanov</a> GitHub account.
       </p>
     </div>
   </section>
@@ -56,24 +63,27 @@ const subsystems = [
       <!-- Architecture diagram (text-based) -->
       <div class="card arch-diagram">
         <span class="section-label">System diagram</span>
-        <pre class="mono"><code>┌─────────────────────────────────────────────────────────┐
-│                     JARVIS OS                           │
-│                                                         │
-│  ┌───────────┐   ┌──────────────┐   ┌───────────────┐  │
-│  │  jarvis   │──▶│  MCP Server  │──▶│  System Tools │  │
-│  │   core    │   │  Registry    │   │  (sudo-aware) │  │
-│  └─────┬─────┘   └──────────────┘   └───────────────┘  │
-│        │                                                │
-│        ▼                                                │
-│  ┌───────────┐   ┌──────────────┐   ┌───────────────┐  │
-│  │  Ollama   │   │  KDE Plasma  │   │  Calamares    │  │
-│  │  (local)  │   │  6 / Wayland │   │  Installer    │  │
-│  └───────────┘   └──────────────┘   └───────────────┘  │
-│                                                         │
-│  ┌─────────────────────────────────────────────────────┐│
-│  │  Build Pipeline: 01 ▸ 02 ▸ 03 ▸ 04 ▸ 05 ▸ 06 ▸ 07 ││
-│  └─────────────────────────────────────────────────────┘│
-└─────────────────────────────────────────────────────────┘</code></pre>
+        <pre class="mono"><code>┌──────────────────────────────────────────────────────────────┐
+│                        JARVIS OS                             │
+│                                                              │
+│  ┌────────────────┐   ┌─────────────┐   ┌────────────────┐  │
+│  │ Project-JARVIS │──▶│    dmcp     │──▶│    dispatch    │  │
+│  │ (voice + LLM)  │   │ MCP registry│   │ task orchestr. │  │
+│  └───────┬────────┘   └─────────────┘   └────────────────┘  │
+│          │                                                   │
+│          ▼                                                   │
+│  ┌────────────────┐   ┌─────────────┐   ┌────────────────┐  │
+│  │     Ollama     │   │ KDE Plasma  │   │  Calamares     │  │
+│  │  (local LLM)   │   │  6/Wayland  │   │  Installer     │  │
+│  └────────────────┘   └─────────────┘   └────────────────┘  │
+│                                                              │
+│  ┌──────────────────────────────────────────────────────┐   │
+│  │  linux-jarvisos kernel  ·  /dev/jarvis char device   │   │
+│  │  jarvis_sysmon · jarvis_policy · jarvis_keys         │   │
+│  └──────────────────────────────────────────────────────┘   │
+│                                                              │
+│  Build: 00 ▸ 01 ▸ 02 ▸ 03 ▸ 03b ▸ 04 ▸ 05 ▸ 06 ▸ 07        │
+└──────────────────────────────────────────────────────────────┘</code></pre>
       </div>
     </div>
   </section>
@@ -93,12 +103,17 @@ const subsystems = [
       <span class="section-label">GitHub Organization</span>
       <h2 class="section-title">Repository structure</h2>
       <div class="card">
-        <pre class="mono repo-tree"><code>github.com/jarvisos/
-├── jarvisos            ← main build system (the 7 scripts)
-├── jarvis-core         ← AI daemon + CLI
-├── mcp-servers         ← MCP orchestration layer
-├── calamares-config    ← installer config
-└── jarvisos.github.io  ← this website</code></pre>
+        <pre class="mono repo-tree"><code>github.com/YakupAtahanov/
+├── jarvisos            ← main build pipeline (scripts + Makefile)
+├── Project-JARVIS      ← AI assistant core (voice + LLM + policy)
+├── dmcp                ← MCP server manager (Rust)
+└── dispatch            ← task orchestrator for MCP (Rust)
+
+github.com/majdaltouzach/
+└── linux               ← custom kernel (jarvisos-6.19-stable)
+
+github.com/CachyOS/
+└── cachyos-calamares   ← graphical installer (upstream fork)</code></pre>
       </div>
     </div>
   </section>
