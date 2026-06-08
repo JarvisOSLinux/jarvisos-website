@@ -40,7 +40,7 @@ const threats = [
   },
   {
     title: "Bloated Context",
-    severity: "novel" as const,
+    severity: "critical" as const,
     description:
       "The AI doesn't disobey security constraints — it forgets them. Context window saturation silently drops earlier instructions. No warning, no error. The boundaries you set vanish, and the agent keeps operating as if they never existed.",
     mitigation: "dispatch rolling signal window (last 20 entries) + contextor retention-based pruning + high-priority preservation of security constraints.",
@@ -121,12 +121,11 @@ const threats = [
   <section class="section" id="bloated-context">
     <div class="container">
       <div class="finding-detail glow-border">
-        <span class="tag tag-novel">Novel Finding</span>
-        <h2 style="margin-top: var(--space-md);">Bloated Context</h2>
+        <span class="tag tag-critical">Bloated Context</span>
+        <h2 style="margin-top: var(--space-md);">Context Saturation as a Security Threat</h2>
         <p style="margin-top: var(--space-md);">
-          This is the standout discovery of the research. Unlike the other threats — which
-          relate to tool misuse or privilege escalation — Bloated Context is a property of
-          how LLMs process information.
+          Unlike the other threats — which relate to tool misuse or privilege escalation —
+          Bloated Context is a property of how LLMs process information.
         </p>
         <p style="margin-top: var(--space-md);">
           Context window saturation silently drops security constraints that were explicitly

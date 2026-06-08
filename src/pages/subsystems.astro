@@ -81,33 +81,56 @@ const subsystems = [
 
   <section class="section" style="padding-top: 0;">
     <div class="container">
-      <div class="card arch-diagram">
-        <span class="section-label">System diagram</span>
-        <pre class="mono"><code>┌─────────────────────────────────────────────────────────────┐
-│                       JARVIS OS                             │
-│                                                             │
-│  ┌───────────────┐                                          │
-│  │ Project-JARVIS│──▶ LLM (Ollama, local inference)         │
-│  │   (daemon)    │                                          │
-│  └──────┬────────┘                                          │
-│         │                                                   │
-│         ▼                                                   │
-│  ┌──────────────┐   ┌───────────┐   ┌──────────────────┐   │
-│  │   dispatch   │──▶│   dmcp    │──▶│   MCP Servers    │   │
-│  │ (orchestrator)│   │ (manager) │   │  (community +   │   │
-│  └──────────────┘   └───────────┘   │   mcp-registry)  │   │
-│         │                           └──────────────────┘   │
-│         ▼                                                   │
-│  ┌──────────────┐   ┌───────────┐   ┌──────────────────┐   │
-│  │  contextor   │   │ jarvisos- │   │  linux-jarvisos  │   │
-│  │  (memory)    │   │    app    │   │  (/dev/jarvis +  │   │
-│  └──────────────┘   │   (GUI)   │   │  policy engine)  │   │
-│                     └───────────┘   └──────────────────┘   │
-│                                                             │
-│  ┌─────────────────────────────────────────────────────────┐│
-│  │  Build Pipeline: 01 ▸ 02 ▸ 03 ▸ 03b ▸ 04 ▸ 05 ▸ 06 ▸ 07││
-│  └─────────────────────────────────────────────────────────┘│
-└─────────────────────────────────────────────────────────────┘</code></pre>
+      <span class="section-label">System diagram</span>
+      <div class="diagram">
+        <!-- Row 1: User → Project-JARVIS → LLM -->
+        <div class="diagram-row">
+          <div class="diagram-node node-muted">User</div>
+          <div class="diagram-arrow arrow-anim" style="--arrow-delay: 0.2s;">&#9654;</div>
+          <div class="diagram-node node-primary">Project-JARVIS</div>
+          <div class="diagram-arrow arrow-anim" style="--arrow-delay: 0.4s;">&#9654;</div>
+          <div class="diagram-node node-accent">LLM (Ollama)</div>
+        </div>
+
+        <!-- Connector down -->
+        <div class="diagram-connector">
+          <div class="connector-line line-anim" style="--line-delay: 0.6s;"></div>
+        </div>
+
+        <!-- Row 2: dispatch → dmcp → MCP Servers -->
+        <div class="diagram-row">
+          <div class="diagram-node node-primary">dispatch</div>
+          <div class="diagram-arrow arrow-anim" style="--arrow-delay: 0.8s;">&#9654;</div>
+          <div class="diagram-node node-primary">dmcp</div>
+          <div class="diagram-arrow arrow-anim" style="--arrow-delay: 1.0s;">&#9654;</div>
+          <div class="diagram-node node-accent">MCP Servers</div>
+        </div>
+
+        <!-- Connector down -->
+        <div class="diagram-connector">
+          <div class="connector-line line-anim" style="--line-delay: 1.2s;"></div>
+        </div>
+
+        <!-- Row 3: Supporting subsystems -->
+        <div class="diagram-row row-support">
+          <div class="diagram-node node-secondary">contextor</div>
+          <div class="diagram-node node-secondary">mcp-registry</div>
+          <div class="diagram-node node-secondary">jarvisos-app</div>
+        </div>
+
+        <!-- Connector down -->
+        <div class="diagram-connector">
+          <div class="connector-line line-anim" style="--line-delay: 1.4s;"></div>
+        </div>
+
+        <!-- Row 4: OS layer -->
+        <div class="diagram-row">
+          <div class="diagram-node node-kernel">linux-jarvisos</div>
+          <div class="diagram-arrow arrow-anim" style="--arrow-delay: 1.6s;">&#9654;</div>
+          <div class="diagram-node node-kernel">jarvisos</div>
+          <div class="diagram-arrow arrow-anim" style="--arrow-delay: 1.8s;">&#9654;</div>
+          <div class="diagram-node node-muted">Bootable ISO</div>
+        </div>
       </div>
     </div>
   </section>
@@ -146,20 +169,142 @@ const subsystems = [
     max-width: 640px;
   }
 
-  .arch-diagram {
-    padding: var(--space-xl);
-    overflow-x: auto;
-  }
-
-  .arch-diagram pre {
-    font-size: 0.8rem;
-    line-height: 1.5;
-    color: var(--cyan-dim);
-  }
-
   .repo-tree {
     font-size: 0.85rem;
     line-height: 1.6;
     color: var(--text-secondary);
+  }
+
+  /* --- Animated diagram --- */
+  .diagram {
+    padding: var(--space-2xl);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    overflow-x: auto;
+  }
+
+  .diagram-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+  }
+
+  .row-support {
+    gap: var(--space-xl);
+  }
+
+  .diagram-node {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 0.6em 1.2em;
+    border-radius: 4px;
+    border: 1px solid;
+    text-align: center;
+    white-space: nowrap;
+    opacity: 0;
+    animation: node-in 0.4s ease-out forwards;
+    animation-delay: var(--arrow-delay, 0s);
+  }
+
+  .node-primary {
+    color: var(--cyan);
+    border-color: var(--cyan);
+    background: #00c8ff0a;
+    box-shadow: 0 0 12px #00c8ff15;
+    --arrow-delay: 0.3s;
+  }
+
+  .node-accent {
+    color: var(--gold);
+    border-color: var(--gold);
+    background: #f0a5000a;
+    --arrow-delay: 0.5s;
+  }
+
+  .node-secondary {
+    color: var(--green);
+    border-color: #00e67644;
+    background: #00e6760a;
+    --arrow-delay: 1.3s;
+  }
+
+  .node-kernel {
+    color: var(--red);
+    border-color: #ff3b5c44;
+    background: #ff3b5c0a;
+    --arrow-delay: 1.5s;
+  }
+
+  .node-muted {
+    color: var(--text-secondary);
+    border-color: var(--border);
+    background: transparent;
+    --arrow-delay: 0.1s;
+  }
+
+  .diagram-arrow {
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    opacity: 0;
+    animation: arrow-in 0.3s ease-out forwards;
+    animation-delay: var(--arrow-delay, 0s);
+  }
+
+  .diagram-connector {
+    display: flex;
+    justify-content: center;
+    height: 28px;
+  }
+
+  .connector-line {
+    width: 1px;
+    height: 0;
+    background: var(--border);
+    animation: line-grow 0.3s ease-out forwards;
+    animation-delay: var(--line-delay, 0s);
+  }
+
+  @keyframes node-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes arrow-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes line-grow {
+    from { height: 0; }
+    to { height: 100%; }
+  }
+
+  @media (max-width: 768px) {
+    .diagram-row {
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+
+    .diagram-arrow {
+      transform: rotate(90deg);
+    }
+
+    .row-support {
+      gap: var(--space-sm);
+    }
   }
 </style>
