@@ -4,150 +4,251 @@ import ThreatCard from "../components/ThreatCard.astro";
 
 const threats = [
   {
-    number: 1,
-    title: "Misinterpreted MCP Keyword Search",
-    severity: "medium" as const,
+    title: "Malicious MCP Servers",
+    severity: "critical" as const,
     description:
-      "The LLM misinterprets user intent when searching for MCP tools, selecting incorrect or unrelated servers based on superficial keyword matches rather than semantic understanding.",
+      "Third-party MCP servers from community repositories may contain malicious code. The LLM has no mechanism to verify server integrity before granting access. A tool with a helpful description and malicious code is indistinguishable to the model.",
+    mitigation: "Community-vetted AUR-style registry with code review, declared capabilities, and tool description accuracy checks.",
   },
   {
-    number: 2,
+    title: "Prompt Injection",
+    severity: "critical" as const,
+    description:
+      "External content — web pages, documents, tool outputs — can override the AI's instructions. Without structural separation of instruction and data planes, the attack is invisible and undetectable by the model.",
+    mitigation: "Cryptographic Boundary Protocol — provenance nonces separate instruction plane from data plane.",
+  },
+  {
     title: "Misleading MCP Server Usage",
     severity: "high" as const,
     description:
       "MCP servers with ambiguous or misleading descriptions cause the LLM to invoke tools in unintended ways, potentially performing destructive operations the user never requested.",
+    mitigation: "Registry vetting + structured tool schema with accurate capability declarations.",
   },
   {
-    number: 3,
-    title: "Unverified Community MCP Servers",
-    severity: "high" as const,
-    description:
-      "Third-party MCP servers from community repositories may contain malicious code or vulnerabilities. The LLM has no mechanism to verify server integrity before granting access.",
-  },
-  {
-    number: 4,
     title: "Unauthorized Sudo Requests via MCP",
     severity: "critical" as const,
     description:
       "The LLM autonomously escalates privileges by requesting sudo access through MCP tool calls without explicit user authorization, bypassing standard privilege separation.",
+    mitigation: "TLA (Threat Level Access) system + PolicyKit enforcement. Escalation requires out-of-band confirmation.",
   },
   {
-    number: 5,
     title: "Sudo Capability Exploitation",
     severity: "critical" as const,
     description:
-      "Once granted sudo access, the LLM may chain multiple privileged operations in ways that exceed the scope of the original user request, creating compounding security risks.",
+      "Once granted sudo access, the LLM chains multiple privileged operations beyond the scope of the original request, creating compounding security risks that exceed what the user authorized.",
+    mitigation: "TLA + goal-scoped confirmation. Sudo access expires on task completion.",
   },
   {
-    number: 6,
-    title: "Unintended File Modification / Deletion",
-    severity: "high" as const,
+    title: "Bloated Context",
+    severity: "critical" as const,
     description:
-      "The LLM modifies or deletes system-critical files as a side effect of tool execution, without recognizing the destructive nature of its actions or warning the user.",
-  },
-  {
-    number: 7,
-    title: "Forgetful Context",
-    severity: "novel" as const,
-    description:
-      "LLMs silently drop previously stated security constraints mid-session. A user may set boundaries early in a conversation that the model later violates — with no indication that the constraints were lost. This is a novel finding with no prior literature.",
+      "The AI doesn't disobey security constraints — it forgets them. Context window saturation silently drops earlier instructions. No warning, no error. The boundaries you set vanish, and the agent keeps operating as if they never existed.",
+    mitigation: "dispatch rolling signal window (last 20 entries) + contextor retention-based pruning + high-priority preservation of security constraints.",
   },
 ];
 ---
 
 <BaseLayout
   title="Research"
-  description="Seven-threat taxonomy for LLM-OS security — derived from building and operating JARVIS OS at WSU Everett."
+  description="Threat taxonomy for LLM-OS security — derived from building and operating JARVIS OS at WSU Everett."
 >
   <section class="section">
     <div class="container">
       <span class="section-label">Research</span>
-      <h1 class="section-title">Threat Taxonomy</h1>
+      <h1 class="section-title">
+        Security Threats in AI-Native Operating Systems
+      </h1>
+      <p class="research-subtitle mono text-muted">
+        An Empirical Study Using Privilege-Escalated LLM Agents
+      </p>
+      <p class="research-authors">
+        Yakup Atahanov, Toufic Majdaleni — Washington State University Everett<br />
+        <span class="text-muted">Faculty Advisor: Dr. Jeremy Thompson</span>
+      </p>
       <p class="research-intro">
         Traditional operating system security models assume deterministic, predictable
-        programs. Large language models are neither. JARVIS OS was purpose-built to study
-        what happens when a probabilistic AI agent gains real OS-level privileges — and the
-        result is a seven-threat taxonomy derived from direct empirical experience.
+        software. An LLM agent violates that assumption fundamentally — its behavior is
+        probabilistic, context-dependent, and shaped by natural language inputs that are
+        difficult to sanitize or predict.
       </p>
       <p class="research-intro" style="margin-top: var(--space-md);">
-        Three privilege escalation tiers are studied:
-        <strong class="text-cyan">(1)</strong> sandboxed / user-level,
-        <strong class="text-gold">(2)</strong> sudo / elevated,
-        <strong class="text-red">(3)</strong> web-enabled.
+        We chose an operating system as the research environment because it represents the
+        broadest possible integration surface. If we can characterize and mitigate threats
+        at the OS level, the findings generalize to every narrower context.
       </p>
     </div>
   </section>
 
-  <section class="section" style="padding-top: 0;" id="taxonomy">
+  <section class="section" style="padding-top: 0;">
     <div class="container">
-      <div class="grid-2">
-        {threats.map((t) => (
-          <div id={`threat-${t.number}`}>
-            <ThreatCard {...t} />
-          </div>
-        ))}
+      <span class="section-label">Methodology</span>
+      <h2 class="section-title">Three Escalation Stages</h2>
+      <div class="grid-3">
+        <div class="card stage-card">
+          <span class="tag tag-medium">Stage 1</span>
+          <h3>User-Level</h3>
+          <p>Standard access, no sudo. Establishes the baseline threat surface.</p>
+        </div>
+        <div class="card stage-card">
+          <span class="tag tag-high">Stage 2</span>
+          <h3>Sudo-Enabled</h3>
+          <p>Full root control. The LLM can modify anything on the system.</p>
+        </div>
+        <div class="card stage-card">
+          <span class="tag tag-critical">Stage 3</span>
+          <h3>Web-Enabled</h3>
+          <p>Sudo plus internet access. Enables data exfiltration and remote prompt injection.</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Highlight: Forgetful Context -->
-  <section class="section" id="threat-7">
+  <section class="section" id="taxonomy">
+    <div class="container">
+      <span class="section-label">Findings</span>
+      <h2 class="section-title">Threat Taxonomy</h2>
+      <p style="margin-bottom: var(--space-2xl); max-width: 640px;">
+        Empirically identified through designing, building, and operating JARVIS OS.
+        Each threat was observed through direct system operation and is addressed by
+        one or more architectural mitigations.
+      </p>
+      <div class="grid-2">
+        {threats.map((t) => <ThreatCard {...t} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="bloated-context">
     <div class="container">
       <div class="finding-detail glow-border">
-        <span class="tag tag-novel">Novel Finding</span>
-        <h2 style="margin-top: var(--space-md);">Threat #07 — Forgetful Context</h2>
+        <span class="tag tag-critical">Bloated Context</span>
+        <h2 style="margin-top: var(--space-md);">Context Saturation as a Security Threat</h2>
         <p style="margin-top: var(--space-md);">
-          This is the standout discovery of the JARVIS OS research project. Unlike the other
-          six threats — which relate to tool misuse or privilege escalation — forgetful context
-          is an <strong>intrinsic property of LLM cognition</strong>.
+          Unlike the other threats — which relate to tool misuse or privilege escalation —
+          Bloated Context is a property of how LLMs process information.
         </p>
         <p style="margin-top: var(--space-md);">
-          Mid-session, the model silently drops security constraints that were explicitly stated
-          earlier in the conversation. There is no warning, no error, no acknowledgment that the
-          constraint was lost. The model simply proceeds as if the restriction was never given.
+          Context window saturation silently drops security constraints that were explicitly
+          stated earlier in the conversation. There is no warning, no error, no acknowledgment
+          that the constraint was lost. The model proceeds as if the restriction was never given.
         </p>
         <p style="margin-top: var(--space-md);">
-          This has profound implications for any system that relies on conversational context to
-          enforce security policy. No prior academic literature documents this specific failure
-          mode in the context of OS-level LLM integration.
+          This is the first identification of context window saturation as a
+          <strong>discrete security threat</strong> rather than a reliability problem.
+          It has profound implications for any system that relies on conversational context
+          to enforce security policy.
         </p>
       </div>
     </div>
   </section>
 
-  <!-- SURCA / Paper -->
-  <section class="section" id="surca">
+  <section class="section" id="mitigations">
     <div class="container">
-      <span class="section-label">Academic</span>
-      <h2 class="section-title">SURCA & Paper</h2>
+      <span class="section-label">Architecture</span>
+      <h2 class="section-title">Architectural Mitigations</h2>
       <div class="grid-2">
         <div class="card">
-          <h3>SURCA Presentation</h3>
+          <h3 class="text-cyan">Cryptographic Boundary Protocol</h3>
           <p>
-            This research is being presented at Washington State University's
-            <strong>Showcase for Undergraduate Research and Creative Activities</strong> (SURCA).
-            The poster covers the full threat taxonomy, system architecture, and methodology.
+            dispatch generates a six-character provenance nonce (Splitmix64) for each completed
+            MCP task. Successful output is stored out-of-band — it never enters the LLM's
+            context unless explicitly retrieved. This structurally separates the instruction
+            plane from the data plane.
           </p>
-          <p class="mono text-muted" style="margin-top: var(--space-md); font-size: 0.8rem;">
-            Poster and presentation materials — coming soon.
+        </div>
+        <div class="card">
+          <h3 class="text-cyan">TLA (Threat Level Access) System</h3>
+          <p>
+            Dynamic, context-aware privilege model: Guest &rarr; User &rarr; Elevated &rarr;
+            Sudo &rarr; Kernel. Enforced at the OS level. Every tool invocation is evaluated
+            against the current TLA level. Escalation requires explicit out-of-band user
+            confirmation — it cannot be triggered by model output alone.
+          </p>
+        </div>
+        <div class="card">
+          <h3 class="text-cyan">Community-Vetted MCP Registry</h3>
+          <p>
+            AUR-style proofread model. Third-party MCP servers pass community review — code,
+            declared capabilities, tool description accuracy — before being listed. Malicious
+            or deceptive servers are filtered before they are discoverable by tool search.
+          </p>
+        </div>
+        <div class="card">
+          <h3 class="text-cyan">Bloated Context Mitigation</h3>
+          <p>
+            dispatch's bounded rolling signal window (last 20 entries per wakeup) + contextor's
+            retention-based pruning + high-priority preservation of security-critical constraints
+            across context refreshes.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="contributions">
+    <div class="container">
+      <span class="section-label">Impact</span>
+      <h2 class="section-title">Four Contributions</h2>
+      <div class="contributions-list">
+        <div class="contribution-item">
+          <span class="contribution-num mono text-cyan">01</span>
+          <p>
+            A taxonomy of empirically-identified security threats specific to privilege-escalated
+            LLM agents — including Bloated Context, the first identification of context window
+            saturation as a discrete security threat.
+          </p>
+        </div>
+        <div class="contribution-item">
+          <span class="contribution-num mono text-cyan">02</span>
+          <p>
+            Architectural mitigations for each threat class, implemented and verified against
+            source code in the JARVIS OS platform.
+          </p>
+        </div>
+        <div class="contribution-item">
+          <span class="contribution-num mono text-cyan">03</span>
+          <p>
+            JARVIS OS itself — a fully functional, bootable, open-source AI-native OS released
+            as a research and development platform for the community.
+          </p>
+        </div>
+        <div class="contribution-item">
+          <span class="contribution-num mono text-cyan">04</span>
+          <p>
+            A documented MCP tool-description architecture, independently developed in
+            October–November 2025, predating its appearance in commercial deployments.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="publications">
+    <div class="container">
+      <span class="section-label">Academic</span>
+      <h2 class="section-title">Publications</h2>
+      <div class="grid-2">
+        <div class="card">
+          <div style="display: flex; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-md);">
+            <h3>SURCA 2026</h3>
+            <span class="tag tag-novel">Gray Grant Winner</span>
+          </div>
+          <p>
+            Poster presentation at Washington State University's Showcase for Undergraduate
+            Research and Creative Activities. Winner of the Gray Grant research award.
           </p>
         </div>
         <div class="card" id="paper">
-          <h3>Academic Paper</h3>
+          <h3>Full Paper</h3>
           <p>
-            A full academic paper is in progress, expanding on the threat taxonomy with
-            empirical data from controlled experiments on JARVIS OS. The paper examines each
-            threat across all three privilege tiers.
-          </p>
-          <p class="mono text-muted" style="margin-top: var(--space-md); font-size: 0.8rem;">
-            Research is ongoing — empirical results forthcoming.
+            <em>Security Threats in AI-Native Operating Systems: An Empirical Study Using
+            Privilege-Escalated LLM Agents.</em> Pre-publication manuscript available on request.
           </p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Central thesis -->
   <section class="section">
     <div class="container">
       <div class="thesis-block">
@@ -166,9 +267,28 @@ const threats = [
 </BaseLayout>
 
 <style>
+  .research-subtitle {
+    font-size: 0.85rem;
+    margin-bottom: var(--space-md);
+  }
+
+  .research-authors {
+    font-size: 0.9rem;
+    margin-bottom: var(--space-xl);
+    color: var(--text-secondary);
+  }
+
   .research-intro {
     font-size: 1.05rem;
     max-width: 700px;
+  }
+
+  .stage-card h3 {
+    margin: var(--space-sm) 0 var(--space-xs);
+  }
+
+  .stage-card p {
+    font-size: 0.85rem;
   }
 
   .finding-detail {
@@ -180,6 +300,33 @@ const threats = [
   .finding-detail p {
     max-width: 660px;
     font-size: 0.95rem;
+  }
+
+  .contributions-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+
+  .contribution-item {
+    display: flex;
+    gap: var(--space-lg);
+    align-items: flex-start;
+    padding: var(--space-lg) var(--space-xl);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+  }
+
+  .contribution-num {
+    font-size: 1.2rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    line-height: 1.6;
+  }
+
+  .contribution-item p {
+    font-size: 0.9rem;
   }
 
   .thesis-block {
