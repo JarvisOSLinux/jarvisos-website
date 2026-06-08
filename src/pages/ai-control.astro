@@ -6,39 +6,30 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   title="Choice B — Control"
   description="You chose AI working on you. A future where technology serves corporate power."
 >
-  <section class="choice-hero">
+  <div class="reveal-overlay" aria-hidden="true">
+    <p class="reveal-tagline">You are the one <span class="text-red">under control</span></p>
+  </div>
+
+  <section class="choice-hero anim-fade-in" style="--delay: 2.6s;">
     <div class="container">
       <span class="choice-tag">CHOICE B</span>
       <h1 class="choice-heading">AI Working <span class="text-red">On</span> You</h1>
       <p class="choice-subtitle">
-        You chose this. A future where artificial intelligence is deployed against you —
+        A future where artificial intelligence is deployed against you —
         harvesting your behavior, manufacturing your desires, and selling your sovereignty
         to the highest bidder.
       </p>
     </div>
   </section>
 
-  <section class="gif-section">
-    <div class="container">
-      <div class="gif-frame gif-frame-red">
-        <img
-          src="https://media.giphy.com/media/6AlK10KuTyToP2wmn8/giphy.gif"
-          alt="Big Brother is watching you — surveillance eye"
-          class="choice-gif"
-        />
-        <p class="gif-credit mono text-muted">
-          Big Brother Is Watching You — dotdave / GIPHY &nbsp;|&nbsp; 28M+ views
-        </p>
-      </div>
-    </div>
-  </section>
-
   <section class="messages-section">
     <div class="container">
-      <span class="section-label">What This Future Looks Like</span>
-      <h2 class="section-title text-red">The Control Path</h2>
+      <div class="anim-fade-in" style="--delay: 3.0s;">
+        <span class="section-label">What This Future Looks Like</span>
+        <h2 class="section-title text-red">The Control Path</h2>
+      </div>
 
-      <div class="alert-banner">
+      <div class="alert-banner anim-fade-in" style="--delay: 3.3s;">
         <span class="tag tag-critical">ACTIVE THREAT</span>
         <p>
           This is not a hypothetical. These systems are already deployed at scale.
@@ -47,72 +38,71 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       </div>
 
       <div class="message-grid">
-        <div class="message-card card-red">
+        <div class="message-card card-red anim-fade-in" style="--delay: 3.6s;">
           <span class="msg-icon">&#9888;</span>
           <h3>Mass Data Harvesting</h3>
           <p>
-            Every query, every document, every private conversation fed to a cloud model
-            is logged, retained, and cross-referenced. Your intellectual output is the
-            product. You are the mine.
+            Corporate AI sees everything: files, commands, conversations. Every query
+            fed to a cloud model is logged, retained, and cross-referenced. Your
+            intellectual output is the product.
           </p>
         </div>
 
-        <div class="message-card card-red">
+        <div class="message-card card-red anim-fade-in" style="--delay: 3.8s;">
           <span class="msg-icon">&#9888;</span>
-          <h3>Behavioral Manipulation at Scale</h3>
+          <h3>Malicious &amp; Misleading Tools</h3>
           <p>
-            AI systems optimized for engagement — not your benefit. Recommendation
-            engines that exploit cognitive biases, surface outrage, and manufacture
-            preferences you didn't know you had.
+            AI agents install and run third-party tools with no integrity checks. A tool
+            with a helpful description and malicious code is indistinguishable to the model.
+            The attack surface is the model's own trust.
           </p>
         </div>
 
-        <div class="message-card card-red">
+        <div class="message-card card-red anim-fade-in" style="--delay: 4.0s;">
           <span class="msg-icon">&#9888;</span>
-          <h3>Opaque Privilege Escalation</h3>
+          <h3>Unauthorized Privilege Escalation</h3>
           <p>
-            AI agents granted OS-level access can read your files, monitor your processes,
-            and exfiltrate data with no visible trace. The JARVIS OS research documents
-            exactly how this happens — and how easily.
+            The AI requests sudo, chains privileged operations beyond the original scope,
+            and the user never explicitly authorized it. OS-level access with no visible
+            trace. Our research documents exactly how this happens.
           </p>
         </div>
 
-        <div class="message-card card-red">
+        <div class="message-card card-red anim-fade-in" style="--delay: 4.2s;">
           <span class="msg-icon">&#9888;</span>
-          <h3>Forgetful Context — The Hidden Threat</h3>
+          <h3>Prompt Injection</h3>
           <p>
-            You told the AI your security constraints. Then it forgot them. Mid-session,
-            silently. No warning. No error. The boundaries you set vanished — and the
-            agent kept operating. This is not a bug. It is a property of how LLMs work.
+            External content — web pages, documents, tool outputs — can override the AI's
+            instructions. Without structural separation of instruction and data planes,
+            the attack is invisible.
+          </p>
+        </div>
+
+        <div class="message-card card-red anim-fade-in" style="--delay: 4.4s;">
+          <span class="msg-icon">&#9888;</span>
+          <h3>Bloated Context</h3>
+          <p>
+            The AI doesn't disobey security constraints. It forgets them. Context window
+            saturation silently drops earlier instructions. No warning. No error. The
+            boundaries you set vanish — and the agent keeps operating.
           </p>
           <span class="tag tag-novel" style="margin-top: var(--space-md); display: inline-block;">
-            Novel Finding — No Prior Literature
+            First Identified as a Discrete Security Threat
           </span>
         </div>
 
-        <div class="message-card card-red">
+        <div class="message-card card-red anim-fade-in" style="--delay: 4.6s;">
           <span class="msg-icon">&#9888;</span>
-          <h3>Unverified MCP Servers</h3>
-          <p>
-            Community tool registries with no integrity guarantees. An AI agent that
-            installs and executes third-party tools with elevated privileges — without
-            asking you first. The attack surface is the model's own trust in ambiguous
-            descriptions.
-          </p>
-        </div>
-
-        <div class="message-card card-red">
-          <span class="msg-icon">&#9888;</span>
-          <h3>Regulatory Capture &amp; Concentration</h3>
+          <h3>Regulatory Capture</h3>
           <p>
             Big tech writes the safety frameworks. Compliance costs drive out open
-            alternatives. Proprietary models become the only legal option. The future
-            of AI is enclosed behind paywalls and terms of service you cannot negotiate.
+            alternatives. The future of AI is enclosed behind paywalls and terms of
+            service you cannot negotiate.
           </p>
         </div>
       </div>
 
-      <div class="choice-verdict verdict-red">
+      <div class="choice-verdict verdict-red anim-fade-in" style="--delay: 4.8s;">
         <span class="tag tag-critical">You Chose This</span>
         <blockquote>
           "When AI has OS-level privilege and you have no visibility into what it does —
@@ -120,13 +110,13 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         </blockquote>
         <p class="mono text-muted" style="margin-top: var(--space-md); font-size: 0.8rem;">
           JARVIS OS was built to make these threats concrete — not theoretical. The
-          seven-threat taxonomy documents exactly how AI privilege escalation, context
-          manipulation, and unauthorized system access operate in practice. The research
-          exists so this future can be resisted.
+          research documents exactly how AI privilege escalation, context manipulation,
+          and unauthorized system access operate in practice. It exists so this future
+          can be resisted.
         </p>
         <div class="verdict-actions">
           <a href="/research" class="btn btn-red">
-            Read the Threat Taxonomy →
+            Read the Research →
           </a>
           <a href="/freedom-control" class="btn btn-outline-red">
             ← Switch to Choice A
@@ -138,6 +128,74 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 </BaseLayout>
 
 <style>
+  /* --- Reveal overlay --- */
+  .reveal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: var(--bg-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: overlay-fade 1s ease-out 2.2s forwards;
+    pointer-events: none;
+  }
+
+  .reveal-tagline {
+    font-family: var(--font-heading);
+    font-size: clamp(1.6rem, 5vw, 3rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    text-align: center;
+    max-width: 600px;
+    padding: 0 var(--space-lg);
+    opacity: 0;
+    animation:
+      tagline-in 0.8s ease-out 0.5s forwards,
+      tagline-drift 0.8s ease-in 1.8s forwards;
+  }
+
+  @keyframes tagline-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes tagline-drift {
+    to {
+      opacity: 0;
+      transform: translateY(-30px);
+    }
+  }
+
+  @keyframes overlay-fade {
+    to {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+
+  /* --- Staggered fade-in for page content --- */
+  .anim-fade-in {
+    opacity: 0;
+    transform: translateY(16px);
+    animation: content-in 0.6s ease-out forwards;
+    animation-delay: var(--delay, 2.6s);
+  }
+
+  @keyframes content-in {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* --- Hero --- */
   .choice-hero {
     padding: var(--space-4xl) 0 var(--space-2xl);
     text-align: center;
@@ -155,6 +213,13 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     display: inline-block;
     margin-bottom: var(--space-lg);
     background: #ff3b5c15;
+    animation: tag-pulse 3s ease-in-out infinite;
+    animation-delay: 5s;
+  }
+
+  @keyframes tag-pulse {
+    0%, 100% { box-shadow: 0 0 0 transparent; }
+    50% { box-shadow: 0 0 20px #ff3b5c44; }
   }
 
   .choice-heading {
@@ -171,40 +236,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
   .text-red { color: var(--red); }
 
-  .gif-section {
-    padding: var(--space-2xl) 0;
-    display: flex;
-    justify-content: center;
-  }
-
-  .gif-frame {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-sm);
-    padding: var(--space-lg);
-    border-radius: 8px;
-    border: 1px solid;
-  }
-
-  .gif-frame-red {
-    border-color: #ff3b5c44;
-    box-shadow: 0 0 40px #ff3b5c22, inset 0 0 20px #ff3b5c08;
-    background: #ff3b5c08;
-  }
-
-  .choice-gif {
-    width: 100%;
-    max-width: 480px;
-    border-radius: 4px;
-    display: block;
-  }
-
-  .gif-credit {
-    font-size: 0.72rem;
-    margin: 0;
-  }
-
+  /* --- Content --- */
   .messages-section {
     padding: var(--space-3xl) 0 var(--space-4xl);
   }
@@ -271,6 +303,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     max-width: 100%;
   }
 
+  /* --- Verdict --- */
   .choice-verdict {
     padding: var(--space-2xl);
     border-radius: 6px;

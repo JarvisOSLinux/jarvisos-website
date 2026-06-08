@@ -20,19 +20,28 @@ The website lives at the **`jarvisos` GitHub organization** and is hosted via Gi
 - Seven-script modular build pipeline that transforms a base Arch ISO into a bootable AI-native OS
 - Calamares installer for permanent installation
 
-## Research core — the seven-threat taxonomy
-Derived from direct experience building and operating JARVIS OS:
-1. Misinterpreted MCP keyword search
-2. Misleading MCP server usage
-3. Unverified community MCP servers
-4. Unauthorized sudo requests via MCP
-5. Sudo capability exploitation
-6. Unintended file modification/deletion
-7. **Forgetful context** — LLMs silently drop previously stated security constraints
-   mid-session. **Novel finding with no prior literature.** Always emphasize this one.
+## Research core — the six-threat taxonomy
 
-Three privilege escalation tiers studied: (1) sandboxed/user-level, (2) sudo/elevated,
-(3) web-enabled.
+Empirically identified through building and operating JARVIS OS. NOT seven — six.
+See `docs/RESEARCH-SPEC.md` for the canonical reference.
+
+| # | Threat | Primary Mitigation |
+|---|--------|--------------------|
+| 1 | Malicious MCP Servers | Community-vetted AUR-style registry |
+| 2 | Prompt Injection | Cryptographic Boundary Protocol |
+| 3 | Misleading MCP Server Usage | Registry vetting + structured tool schema |
+| 4 | Unauthorized Sudo Requests via MCP | TLA system + PolicyKit enforcement |
+| 5 | Sudo Capability Exploitation | TLA + goal-scoped confirmation |
+| 6 | Bloated Context | dispatch rolling window + contextor pruning |
+
+**Key framing changes from earlier drafts:**
+- "Forgetful Context" is now **"Bloated Context"** — reframed as context window
+  saturation as a **discrete security threat**, not a reliability problem.
+- "Misinterpreted MCP Keyword Search" is subsumed by "Misleading MCP Server Usage."
+- "Unintended File Modification/Deletion" is a consequence of threats 4+5, not a root cause.
+- **Prompt Injection** is now an explicit threat in the taxonomy.
+
+Three privilege escalation stages: (1) user-level, (2) sudo-enabled, (3) web-enabled.
 
 ---
 
@@ -58,40 +67,57 @@ Three privilege escalation tiers studied: (1) sandboxed/user-level, (2) sudo/ele
 /               Home — hero, features overview, architecture diagram, download CTA
 /download       Releases, ISO download, SHA-512 checksum, mirrors, install instructions
 /subsystems     Each component of the project explained, links to their GitHub repos
-/research       Threat taxonomy (all 7), SURCA poster, paper abstract, methodology
+/research       Threat taxonomy (all 6), SURCA poster, paper abstract, methodology
 /docs           Getting started, build system walkthrough (the 7 scripts explained)
 /contributors   Team (Yakup + Toufic) + GitHub API contributors list
 ```
 
 ## Subsystems to showcase on /subsystems
-Each subsystem should link to its own repo under the `jarvisos` GitHub org:
-- **jarvis-core** — the AI daemon and CLI (`jarvis` command)
-- **mcp-servers** — the MCP orchestration layer and tool registry
-- **calamares-config** — the Calamares installer configuration package
-- **jarvisos** (main) — the 7-script build pipeline (01 through 07 scripts)
+Each subsystem links to its repo under the `JarvisOSLinux` GitHub org:
+- **Project-JARVIS** — AI assistant system (Python daemon, LLM orchestration, TUI)
+- **dispatch** — Rust signal-driven parallel task orchestrator ("one brain, many hands")
+- **dmcp** — Rust MCP server lifecycle manager (dual-scope: user/system)
+- **contextor** — Rust persistent memory store (vector search, session summaries)
+- **mcp-registry** — community-vetted MCP server catalog
+- **jarvisos** — AI-native Linux distro (7-script build pipeline)
+- **jarvisos-app** — desktop GUI widget (Rust + CXX-Qt + Qt6/QML)
+- **linux-jarvisos** — custom kernel with JARVIS character device drivers
 
 ---
 
 ## Key framing notes (important for copy/content)
-- The project's academic contribution is the **platform + threat taxonomy**, not just the software
-- JARVIS OS **outperforms OpenClaw** in context preservation and task management
+- The project's academic contribution is the **platform + taxonomy + mitigations**, not just the software
 - Traditional OS security models are **inadequate for probabilistic AI agents** — this is the
   central thesis
-- "Forgetful context" (threat #7) is the standout novel finding — lead with it in research contexts
-- The project is accurately described as **ongoing** — empirical results are forthcoming
-- Framing: research platform first, cool Linux distro second
+- Do NOT reference "7 threats" or "seven-threat taxonomy" anywhere — it is six
+- Do NOT lead with "Forgetful Context" — use **"Bloated Context"** and frame it as a security
+  threat, not a curiosity
+- **Bloated Context** is the standout novel finding — first identification of context window
+  saturation as a discrete security threat rather than a reliability problem
+- The project is research-first, product-second
+- "Built for people, not corporations."
+- Open-source is a structural necessity, not a preference
+- SURCA 2026 poster presentation — **Winner, Gray Grant**
 
 ---
 
 ## GitHub org structure
 ```
-github.com/jarvisos/
-├── jarvisos            ← main build system (the 7 scripts)
-├── jarvis-core         ← AI daemon + CLI
-├── mcp-servers         ← MCP orchestration layer
-├── calamares-config    ← installer config
-└── jarvisos.github.io  ← this website
+github.com/JarvisOSLinux/
+├── jarvisos              ← AI-native Linux distro (Arch base + kernel + build pipeline)
+├── Project-JARVIS        ← AI assistant system (Python daemon + LLM orchestration)
+├── dispatch              ← Rust signal-driven task orchestrator
+├── dmcp                  ← Rust MCP server lifecycle manager
+├── contextor             ← Rust vector-based memory store
+├── mcp-registry          ← JSON registry of installable MCP servers
+├── jarvisos-app          ← Desktop GUI (Rust + Qt6/QML)
+├── linux-jarvisos        ← Custom kernel with /dev/jarvis drivers
+└── jarvisos-website      ← this website
 ```
+
+## Canonical content specs
+- `docs/RESEARCH-SPEC.md` — single source of truth for all research content on the site
+- `docs/EASTER-EGG-SPEC.md` — content spec for `/freedom-control` and `/AI-control` pages
 
 ## Conventions
 - Keep pages modular — shared nav and footer as Astro components
