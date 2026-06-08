@@ -6,39 +6,30 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   title="Choice A — Freedom"
   description="You chose AI working with you. A future where technology serves humanity."
 >
-  <section class="choice-hero">
+  <div class="reveal-overlay" aria-hidden="true">
+    <p class="reveal-tagline">You are the one <span class="text-green">in control</span></p>
+  </div>
+
+  <section class="choice-hero anim-fade-in" style="--delay: 2.6s;">
     <div class="container">
       <span class="choice-tag">CHOICE A</span>
       <h1 class="choice-heading">AI Working <span class="text-green">With</span> You</h1>
       <p class="choice-subtitle">
-        You chose freedom. You chose a future where artificial intelligence is a tool —
-        not a master. Where technology amplifies human agency rather than replacing it.
+        A future where artificial intelligence is a tool — not a master.
+        Where technology amplifies human agency rather than replacing it.
       </p>
-    </div>
-  </section>
-
-  <section class="gif-section">
-    <div class="container">
-      <div class="gif-frame gif-frame-green">
-        <img
-          src="https://media.giphy.com/media/EwtHoTjSJQA7oLEl1m/giphy.gif"
-          alt="Bald eagle soaring free"
-          class="choice-gif"
-        />
-        <p class="gif-credit mono text-muted">
-          U.S. Fish &amp; Wildlife Service — via GIPHY
-        </p>
-      </div>
     </div>
   </section>
 
   <section class="messages-section">
     <div class="container">
-      <span class="section-label">What This Future Looks Like</span>
-      <h2 class="section-title text-green">The Open Path</h2>
+      <div class="anim-fade-in" style="--delay: 3.0s;">
+        <span class="section-label">What This Future Looks Like</span>
+        <h2 class="section-title text-green">The Open Path</h2>
+      </div>
 
       <div class="message-grid">
-        <div class="message-card card-green">
+        <div class="message-card card-green anim-fade-in" style="--delay: 3.3s;">
           <span class="msg-icon">&#9670;</span>
           <h3>Local &amp; Transparent AI</h3>
           <p>
@@ -48,7 +39,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           </p>
         </div>
 
-        <div class="message-card card-green">
+        <div class="message-card card-green anim-fade-in" style="--delay: 3.5s;">
           <span class="msg-icon">&#9670;</span>
           <h3>User-Controlled Permissions</h3>
           <p>
@@ -58,17 +49,17 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           </p>
         </div>
 
-        <div class="message-card card-green">
+        <div class="message-card card-green anim-fade-in" style="--delay: 3.7s;">
           <span class="msg-icon">&#9670;</span>
           <h3>Open Research &amp; Accountability</h3>
           <p>
-            Security threats are studied in the open — like the six-threat taxonomy
-            published in our research. Vulnerabilities are disclosed, not hidden. The
-            community audits what you run.
+            Security threats are studied in the open — like the threat taxonomy
+            published in our research. Vulnerabilities are disclosed, not hidden.
+            The community audits what you run.
           </p>
         </div>
 
-        <div class="message-card card-green">
+        <div class="message-card card-green anim-fade-in" style="--delay: 3.9s;">
           <span class="msg-icon">&#9670;</span>
           <h3>AI Amplifies, Not Replaces</h3>
           <p>
@@ -79,7 +70,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         </div>
       </div>
 
-      <div class="choice-verdict verdict-green">
+      <div class="choice-verdict verdict-green anim-fade-in" style="--delay: 4.1s;">
         <span class="tag tag-novel">You Chose This</span>
         <blockquote>
           "Freedom is not the absence of AI — it is AI that remains answerable to the
@@ -99,6 +90,74 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 </BaseLayout>
 
 <style>
+  /* --- Reveal overlay --- */
+  .reveal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: var(--bg-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: overlay-fade 1s ease-out 2.2s forwards;
+    pointer-events: none;
+  }
+
+  .reveal-tagline {
+    font-family: var(--font-heading);
+    font-size: clamp(1.6rem, 5vw, 3rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    text-align: center;
+    max-width: 600px;
+    padding: 0 var(--space-lg);
+    opacity: 0;
+    animation:
+      tagline-in 0.8s ease-out 0.5s forwards,
+      tagline-drift 0.8s ease-in 1.8s forwards;
+  }
+
+  @keyframes tagline-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes tagline-drift {
+    to {
+      opacity: 0;
+      transform: translateY(-30px);
+    }
+  }
+
+  @keyframes overlay-fade {
+    to {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+
+  /* --- Staggered fade-in for page content --- */
+  .anim-fade-in {
+    opacity: 0;
+    transform: translateY(16px);
+    animation: content-in 0.6s ease-out forwards;
+    animation-delay: var(--delay, 2.6s);
+  }
+
+  @keyframes content-in {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* --- Hero --- */
   .choice-hero {
     padding: var(--space-4xl) 0 var(--space-2xl);
     text-align: center;
@@ -116,6 +175,13 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     display: inline-block;
     margin-bottom: var(--space-lg);
     background: #00e67615;
+    animation: tag-pulse 3s ease-in-out infinite;
+    animation-delay: 5s;
+  }
+
+  @keyframes tag-pulse {
+    0%, 100% { box-shadow: 0 0 0 transparent; }
+    50% { box-shadow: 0 0 20px #00e67644; }
   }
 
   .choice-heading {
@@ -132,40 +198,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
   .text-green { color: var(--green); }
 
-  .gif-section {
-    padding: var(--space-2xl) 0;
-    display: flex;
-    justify-content: center;
-  }
-
-  .gif-frame {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-sm);
-    padding: var(--space-lg);
-    border-radius: 8px;
-    border: 1px solid;
-  }
-
-  .gif-frame-green {
-    border-color: #00e67644;
-    box-shadow: 0 0 40px #00e67622, inset 0 0 20px #00e67608;
-    background: #00e67608;
-  }
-
-  .choice-gif {
-    width: 100%;
-    max-width: 480px;
-    border-radius: 4px;
-    display: block;
-  }
-
-  .gif-credit {
-    font-size: 0.72rem;
-    margin: 0;
-  }
-
+  /* --- Content --- */
   .messages-section {
     padding: var(--space-3xl) 0 var(--space-4xl);
   }
@@ -214,6 +247,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     max-width: 100%;
   }
 
+  /* --- Verdict --- */
   .choice-verdict {
     padding: var(--space-2xl);
     border-radius: 6px;
