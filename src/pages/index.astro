@@ -43,14 +43,14 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     <div class="container">
       <div class="finding-banner glow-border">
         <span class="tag tag-novel">Novel Finding</span>
-        <h2>Forgetful Context</h2>
+        <h2>Bloated Context</h2>
         <p>
-          LLMs silently drop previously stated security constraints mid-session — a threat
-          with <strong>no prior literature</strong>. Discovered through direct operation of
-          JARVIS OS, this finding demonstrates that traditional stateless security models
-          are fundamentally inadequate for probabilistic AI agents.
+          Context window saturation silently drops security constraints mid-session — a threat
+          first identified as a <strong>discrete security vulnerability</strong> by this research.
+          The AI doesn't disobey your rules. It forgets them. This finding demonstrates that
+          conversational context cannot be trusted to enforce security policy.
         </p>
-        <a href="/research#threat-7" class="btn btn-outline" style="margin-top: var(--space-lg);">
+        <a href="/research#bloated-context" class="btn btn-outline" style="margin-top: var(--space-lg);">
           Learn more &rarr;
         </a>
       </div>
@@ -71,10 +71,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           </p>
         </div>
         <div class="card">
-          <h3>MCP Orchestration</h3>
+          <h3>dispatch + dmcp</h3>
           <p>
-            The Model Context Protocol layer lets the LLM autonomously create, modify, and
-            delete system tools — including with sudo privileges.
+            Signal-driven task orchestrator paired with an MCP server lifecycle manager.
+            One brain dispatches concurrent tool calls; many hands execute them in parallel.
           </p>
         </div>
         <div class="card">
@@ -92,17 +92,17 @@ import BaseLayout from "../layouts/BaseLayout.astro";
           </p>
         </div>
         <div class="card">
-          <h3>Calamares Installer</h3>
+          <h3>TUI Installer</h3>
           <p>
-            Graphical installer for permanent deployment to hardware. No manual partitioning
-            or command-line installation required.
+            Dialog-based installer for permanent deployment to hardware. Auto-installs
+            dependencies, supports auto and manual partitioning.
           </p>
         </div>
         <div class="card">
           <h3>Security Research Platform</h3>
           <p>
             Purpose-built to expose and document the real security threats that emerge when
-            LLMs gain OS-level control.
+            LLMs gain OS-level control. Research-first, product-second.
           </p>
         </div>
       </div>
@@ -113,45 +113,34 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   <section class="section">
     <div class="container">
       <span class="section-label">Research</span>
-      <h2 class="section-title">Seven-threat taxonomy</h2>
+      <h2 class="section-title">Threat Taxonomy</h2>
       <p style="margin-bottom: var(--space-2xl);">
-        Derived from direct experience building and operating an AI-native OS.
-        Three privilege escalation tiers studied: sandboxed, sudo-elevated, and web-enabled.
+        Empirically identified through building and operating an AI-native OS.
+        Three privilege escalation stages studied: user-level, sudo-enabled, and web-enabled.
       </p>
       <div class="threat-overview-grid">
         <div class="threat-row">
-          <span class="mono text-muted">#01</span>
-          <span>Misinterpreted MCP keyword search</span>
-          <span class="tag tag-medium">Medium</span>
-        </div>
-        <div class="threat-row">
-          <span class="mono text-muted">#02</span>
-          <span>Misleading MCP server usage</span>
-          <span class="tag tag-high">High</span>
-        </div>
-        <div class="threat-row">
-          <span class="mono text-muted">#03</span>
-          <span>Unverified community MCP servers</span>
-          <span class="tag tag-high">High</span>
-        </div>
-        <div class="threat-row">
-          <span class="mono text-muted">#04</span>
-          <span>Unauthorized sudo requests via MCP</span>
+          <span>Malicious MCP Servers</span>
           <span class="tag tag-critical">Critical</span>
         </div>
         <div class="threat-row">
-          <span class="mono text-muted">#05</span>
-          <span>Sudo capability exploitation</span>
+          <span>Prompt Injection</span>
           <span class="tag tag-critical">Critical</span>
         </div>
         <div class="threat-row">
-          <span class="mono text-muted">#06</span>
-          <span>Unintended file modification / deletion</span>
+          <span>Misleading MCP Server Usage</span>
           <span class="tag tag-high">High</span>
         </div>
         <div class="threat-row">
-          <span class="mono text-muted">#07</span>
-          <span>Forgetful context <span class="text-green mono" style="font-size:0.75rem;">&mdash; NOVEL</span></span>
+          <span>Unauthorized Sudo Requests via MCP</span>
+          <span class="tag tag-critical">Critical</span>
+        </div>
+        <div class="threat-row">
+          <span>Sudo Capability Exploitation</span>
+          <span class="tag tag-critical">Critical</span>
+        </div>
+        <div class="threat-row">
+          <span>Bloated Context <span class="text-green mono" style="font-size:0.75rem;">&mdash; NOVEL</span></span>
           <span class="tag tag-novel">Novel</span>
         </div>
       </div>
@@ -246,7 +235,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
   .threat-row {
     display: grid;
-    grid-template-columns: 3rem 1fr auto;
+    grid-template-columns: 1fr auto;
     gap: var(--space-md);
     align-items: center;
     padding: var(--space-md) var(--space-lg);
@@ -272,14 +261,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     .hero-meta {
       flex-direction: column;
       gap: var(--space-xs);
-    }
-
-    .threat-row {
-      grid-template-columns: 1fr auto;
-    }
-
-    .threat-row span:first-child {
-      display: none;
     }
   }
 </style>

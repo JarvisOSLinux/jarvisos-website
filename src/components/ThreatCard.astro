@@ -1,34 +1,31 @@
 ---
 interface Props {
-  number: number;
   title: string;
   severity: "critical" | "high" | "medium" | "novel";
   description: string;
+  mitigation: string;
 }
 
-const { number, title, severity, description } = Astro.props;
+const { title, severity, description, mitigation } = Astro.props;
 ---
 
 <div class="card threat-card">
   <div class="threat-header">
-    <span class="threat-number mono">#{number.toString().padStart(2, "0")}</span>
     <span class:list={["tag", `tag-${severity}`]}>{severity}</span>
   </div>
   <h3 class="threat-title">{title}</h3>
   <p class="threat-desc">{description}</p>
+  <div class="threat-mitigation">
+    <span class="mitigation-label mono">Mitigation</span>
+    <p class="mitigation-text">{mitigation}</p>
+  </div>
 </div>
 
 <style>
   .threat-header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     margin-bottom: var(--space-md);
-  }
-
-  .threat-number {
-    font-size: 0.8rem;
-    color: var(--text-muted);
   }
 
   .threat-title {
@@ -39,5 +36,26 @@ const { number, title, severity, description } = Astro.props;
   .threat-desc {
     font-size: 0.85rem;
     line-height: 1.5;
+  }
+
+  .threat-mitigation {
+    margin-top: var(--space-md);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--border);
+  }
+
+  .mitigation-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--green);
+    display: block;
+    margin-bottom: var(--space-xs);
+  }
+
+  .mitigation-text {
+    font-size: 0.8rem;
+    line-height: 1.4;
+    color: var(--text-muted);
   }
 </style>
