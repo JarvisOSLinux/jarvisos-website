@@ -1,0 +1,365 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Choice B — Control"
+  description="You chose AI working on you. A future where technology serves corporate power."
+>
+  <section class="choice-hero">
+    <div class="container">
+      <span class="choice-tag">CHOICE B</span>
+      <h1 class="choice-heading">AI Working <span class="text-red">On</span> You</h1>
+      <p class="choice-subtitle">
+        You chose this. A future where artificial intelligence is deployed against you —
+        harvesting your behavior, manufacturing your desires, and selling your sovereignty
+        to the highest bidder.
+      </p>
+    </div>
+  </section>
+
+  <section class="gif-section">
+    <div class="container">
+      <div class="gif-frame gif-frame-red">
+        <img
+          src="https://media.giphy.com/media/6AlK10KuTyToP2wmn8/giphy.gif"
+          alt="Big Brother is watching you — surveillance eye"
+          class="choice-gif"
+        />
+        <p class="gif-credit mono text-muted">
+          Big Brother Is Watching You — dotdave / GIPHY &nbsp;|&nbsp; 28M+ views
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="messages-section">
+    <div class="container">
+      <span class="section-label">What This Future Looks Like</span>
+      <h2 class="section-title text-red">The Control Path</h2>
+
+      <div class="alert-banner">
+        <span class="tag tag-critical">ACTIVE THREAT</span>
+        <p>
+          This is not a hypothetical. These systems are already deployed at scale.
+          You are already inside them.
+        </p>
+      </div>
+
+      <div class="message-grid">
+        <div class="message-card card-red">
+          <span class="msg-icon">&#9888;</span>
+          <h3>Mass Data Harvesting</h3>
+          <p>
+            Every query, every document, every private conversation fed to a cloud model
+            is logged, retained, and cross-referenced. Your intellectual output is the
+            product. You are the mine.
+          </p>
+        </div>
+
+        <div class="message-card card-red">
+          <span class="msg-icon">&#9888;</span>
+          <h3>Behavioral Manipulation at Scale</h3>
+          <p>
+            AI systems optimized for engagement — not your benefit. Recommendation
+            engines that exploit cognitive biases, surface outrage, and manufacture
+            preferences you didn't know you had.
+          </p>
+        </div>
+
+        <div class="message-card card-red">
+          <span class="msg-icon">&#9888;</span>
+          <h3>Opaque Privilege Escalation</h3>
+          <p>
+            AI agents granted OS-level access can read your files, monitor your processes,
+            and exfiltrate data with no visible trace. The JARVIS OS research documents
+            exactly how this happens — and how easily.
+          </p>
+        </div>
+
+        <div class="message-card card-red">
+          <span class="msg-icon">&#9888;</span>
+          <h3>Forgetful Context — The Hidden Threat</h3>
+          <p>
+            You told the AI your security constraints. Then it forgot them. Mid-session,
+            silently. No warning. No error. The boundaries you set vanished — and the
+            agent kept operating. This is not a bug. It is a property of how LLMs work.
+          </p>
+          <span class="tag tag-novel" style="margin-top: var(--space-md); display: inline-block;">
+            Novel Finding — No Prior Literature
+          </span>
+        </div>
+
+        <div class="message-card card-red">
+          <span class="msg-icon">&#9888;</span>
+          <h3>Unverified MCP Servers</h3>
+          <p>
+            Community tool registries with no integrity guarantees. An AI agent that
+            installs and executes third-party tools with elevated privileges — without
+            asking you first. The attack surface is the model's own trust in ambiguous
+            descriptions.
+          </p>
+        </div>
+
+        <div class="message-card card-red">
+          <span class="msg-icon">&#9888;</span>
+          <h3>Regulatory Capture &amp; Concentration</h3>
+          <p>
+            Big tech writes the safety frameworks. Compliance costs drive out open
+            alternatives. Proprietary models become the only legal option. The future
+            of AI is enclosed behind paywalls and terms of service you cannot negotiate.
+          </p>
+        </div>
+      </div>
+
+      <div class="choice-verdict verdict-red">
+        <span class="tag tag-critical">You Chose This</span>
+        <blockquote>
+          "When AI has OS-level privilege and you have no visibility into what it does —
+          you are not using a tool. You are inside one."
+        </blockquote>
+        <p class="mono text-muted" style="margin-top: var(--space-md); font-size: 0.8rem;">
+          JARVIS OS was built to make these threats concrete — not theoretical. The
+          seven-threat taxonomy documents exactly how AI privilege escalation, context
+          manipulation, and unauthorized system access operate in practice. The research
+          exists so this future can be resisted.
+        </p>
+        <div class="verdict-actions">
+          <a href="/research" class="btn btn-red">
+            Read the Threat Taxonomy →
+          </a>
+          <a href="/freedom-control" class="btn btn-outline-red">
+            ← Switch to Choice A
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .choice-hero {
+    padding: var(--space-4xl) 0 var(--space-2xl);
+    text-align: center;
+  }
+
+  .choice-tag {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--red);
+    border: 1px solid var(--red);
+    padding: 0.3em 0.8em;
+    border-radius: 3px;
+    display: inline-block;
+    margin-bottom: var(--space-lg);
+    background: #ff3b5c15;
+  }
+
+  .choice-heading {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    margin-bottom: var(--space-lg);
+  }
+
+  .choice-subtitle {
+    font-size: 1.15rem;
+    max-width: 600px;
+    margin: 0 auto;
+    color: var(--text-secondary);
+  }
+
+  .text-red { color: var(--red); }
+
+  .gif-section {
+    padding: var(--space-2xl) 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  .gif-frame {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-lg);
+    border-radius: 8px;
+    border: 1px solid;
+  }
+
+  .gif-frame-red {
+    border-color: #ff3b5c44;
+    box-shadow: 0 0 40px #ff3b5c22, inset 0 0 20px #ff3b5c08;
+    background: #ff3b5c08;
+  }
+
+  .choice-gif {
+    width: 100%;
+    max-width: 480px;
+    border-radius: 4px;
+    display: block;
+  }
+
+  .gif-credit {
+    font-size: 0.72rem;
+    margin: 0;
+  }
+
+  .messages-section {
+    padding: var(--space-3xl) 0 var(--space-4xl);
+  }
+
+  .alert-banner {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+    padding: var(--space-lg) var(--space-xl);
+    background: #ff3b5c0d;
+    border: 1px solid #ff3b5c44;
+    border-radius: 6px;
+    margin-bottom: var(--space-2xl);
+  }
+
+  .alert-banner p {
+    margin: 0;
+    max-width: 100%;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+  }
+
+  .message-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-xl);
+    margin-bottom: var(--space-3xl);
+  }
+
+  .message-card {
+    background: var(--bg-card);
+    border-radius: 6px;
+    padding: var(--space-xl);
+    border: 1px solid;
+    position: relative;
+    transition: all var(--transition-base);
+  }
+
+  .card-red {
+    border-color: #ff3b5c30;
+  }
+
+  .card-red:hover {
+    border-color: #ff3b5c66;
+    box-shadow: 0 0 25px #ff3b5c18;
+    background: var(--bg-card-hover);
+  }
+
+  .msg-icon {
+    color: var(--red);
+    font-size: 0.9rem;
+    display: block;
+    margin-bottom: var(--space-sm);
+  }
+
+  .message-card h3 {
+    color: var(--red);
+    margin-bottom: var(--space-sm);
+    font-size: 1rem;
+  }
+
+  .message-card p {
+    font-size: 0.9rem;
+    max-width: 100%;
+  }
+
+  .choice-verdict {
+    padding: var(--space-2xl);
+    border-radius: 6px;
+    border-left: 3px solid var(--red);
+    background: var(--bg-card);
+  }
+
+  .verdict-red {
+    box-shadow: 0 0 30px #ff3b5c15;
+  }
+
+  .choice-verdict blockquote {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    color: var(--text-primary);
+    line-height: 1.5;
+    max-width: 640px;
+    margin-top: var(--space-md);
+  }
+
+  .verdict-actions {
+    display: flex;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+    margin-top: var(--space-xl);
+  }
+
+  .btn-red {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: 0.75rem 1.5rem;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 0.9rem;
+    border: 1px solid var(--red);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: var(--red);
+    color: var(--bg-primary);
+    text-decoration: none;
+  }
+
+  .btn-red:hover {
+    background: transparent;
+    color: var(--red);
+    box-shadow: 0 0 20px #ff3b5c44;
+  }
+
+  .btn-outline-red {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: 0.75rem 1.5rem;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 0.9rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: transparent;
+    color: var(--text-secondary);
+    text-decoration: none;
+  }
+
+  .btn-outline-red:hover {
+    border-color: var(--green);
+    color: var(--green);
+    box-shadow: 0 0 20px #00e67620;
+  }
+
+  @media (max-width: 768px) {
+    .alert-banner {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .message-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .verdict-actions {
+      flex-direction: column;
+    }
+  }
+</style>

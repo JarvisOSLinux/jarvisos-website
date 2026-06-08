@@ -1,0 +1,267 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Choice A — Freedom"
+  description="You chose AI working with you. A future where technology serves humanity."
+>
+  <section class="choice-hero">
+    <div class="container">
+      <span class="choice-tag">CHOICE A</span>
+      <h1 class="choice-heading">AI Working <span class="text-green">With</span> You</h1>
+      <p class="choice-subtitle">
+        You chose freedom. You chose a future where artificial intelligence is a tool —
+        not a master. Where technology amplifies human agency rather than replacing it.
+      </p>
+    </div>
+  </section>
+
+  <section class="gif-section">
+    <div class="container">
+      <div class="gif-frame gif-frame-green">
+        <img
+          src="https://media.giphy.com/media/EwtHoTjSJQA7oLEl1m/giphy.gif"
+          alt="Bald eagle soaring free"
+          class="choice-gif"
+        />
+        <p class="gif-credit mono text-muted">
+          U.S. Fish &amp; Wildlife Service — via GIPHY
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="messages-section">
+    <div class="container">
+      <span class="section-label">What This Future Looks Like</span>
+      <h2 class="section-title text-green">The Open Path</h2>
+
+      <div class="message-grid">
+        <div class="message-card card-green">
+          <span class="msg-icon">&#9670;</span>
+          <h3>Local &amp; Transparent AI</h3>
+          <p>
+            Your AI runs on your hardware. No data leaves your machine. No corporation
+            harvests your conversations, habits, or decisions. You own your compute,
+            your models, and your outputs.
+          </p>
+        </div>
+
+        <div class="message-card card-green">
+          <span class="msg-icon">&#9670;</span>
+          <h3>User-Controlled Permissions</h3>
+          <p>
+            AI asks before it acts. Every system access is explicit, logged, and
+            revocable. The agent serves your intent — it does not infer authority
+            you never granted.
+          </p>
+        </div>
+
+        <div class="message-card card-green">
+          <span class="msg-icon">&#9670;</span>
+          <h3>Open Research &amp; Accountability</h3>
+          <p>
+            Security threats are studied in the open — like the seven-threat taxonomy
+            from JARVIS OS. Vulnerabilities are published, not hidden. The community
+            audits what you run.
+          </p>
+        </div>
+
+        <div class="message-card card-green">
+          <span class="msg-icon">&#9670;</span>
+          <h3>AI Amplifies, Not Replaces</h3>
+          <p>
+            The system augments your decisions. It surfaces information, executes tasks
+            you specify, and stops when you say stop. The human remains the locus of
+            judgment and intent.
+          </p>
+        </div>
+      </div>
+
+      <div class="choice-verdict verdict-green">
+        <span class="tag tag-novel">You Chose This</span>
+        <blockquote>
+          "Freedom is not the absence of AI — it is AI that remains answerable to the
+          people who use it."
+        </blockquote>
+        <p class="mono text-muted" style="margin-top: var(--space-md); font-size: 0.8rem;">
+          This is the research mission behind JARVIS OS. An open platform to study,
+          expose, and counteract the threats that emerge when AI gains OS-level privilege
+          — so the open path stays open.
+        </p>
+        <a href="/research" class="btn btn-green" style="margin-top: var(--space-xl);">
+          Read the Research →
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .choice-hero {
+    padding: var(--space-4xl) 0 var(--space-2xl);
+    text-align: center;
+  }
+
+  .choice-tag {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--green);
+    border: 1px solid var(--green);
+    padding: 0.3em 0.8em;
+    border-radius: 3px;
+    display: inline-block;
+    margin-bottom: var(--space-lg);
+    background: #00e67615;
+  }
+
+  .choice-heading {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    margin-bottom: var(--space-lg);
+  }
+
+  .choice-subtitle {
+    font-size: 1.15rem;
+    max-width: 600px;
+    margin: 0 auto;
+    color: var(--text-secondary);
+  }
+
+  .text-green { color: var(--green); }
+
+  .gif-section {
+    padding: var(--space-2xl) 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  .gif-frame {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-lg);
+    border-radius: 8px;
+    border: 1px solid;
+  }
+
+  .gif-frame-green {
+    border-color: #00e67644;
+    box-shadow: 0 0 40px #00e67622, inset 0 0 20px #00e67608;
+    background: #00e67608;
+  }
+
+  .choice-gif {
+    width: 100%;
+    max-width: 480px;
+    border-radius: 4px;
+    display: block;
+  }
+
+  .gif-credit {
+    font-size: 0.72rem;
+    margin: 0;
+  }
+
+  .messages-section {
+    padding: var(--space-3xl) 0 var(--space-4xl);
+  }
+
+  .message-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-xl);
+    margin-bottom: var(--space-3xl);
+  }
+
+  .message-card {
+    background: var(--bg-card);
+    border-radius: 6px;
+    padding: var(--space-xl);
+    border: 1px solid;
+    position: relative;
+    transition: all var(--transition-base);
+  }
+
+  .card-green {
+    border-color: #00e67630;
+  }
+
+  .card-green:hover {
+    border-color: #00e67666;
+    box-shadow: 0 0 25px #00e67618;
+    background: var(--bg-card-hover);
+  }
+
+  .msg-icon {
+    color: var(--green);
+    font-size: 0.75rem;
+    display: block;
+    margin-bottom: var(--space-sm);
+  }
+
+  .message-card h3 {
+    color: var(--green);
+    margin-bottom: var(--space-sm);
+    font-size: 1rem;
+  }
+
+  .message-card p {
+    font-size: 0.9rem;
+    max-width: 100%;
+  }
+
+  .choice-verdict {
+    padding: var(--space-2xl);
+    border-radius: 6px;
+    border-left: 3px solid var(--green);
+    background: var(--bg-card);
+  }
+
+  .verdict-green {
+    box-shadow: 0 0 30px #00e67615;
+  }
+
+  .choice-verdict blockquote {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    color: var(--text-primary);
+    line-height: 1.5;
+    max-width: 640px;
+    margin-top: var(--space-md);
+  }
+
+  .btn-green {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: 0.75rem 1.5rem;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 0.9rem;
+    border: 1px solid var(--green);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: transparent;
+    color: var(--green);
+    text-decoration: none;
+  }
+
+  .btn-green:hover {
+    background: var(--green);
+    color: var(--bg-primary);
+    box-shadow: 0 0 20px #00e67644;
+  }
+
+  @media (max-width: 768px) {
+    .message-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

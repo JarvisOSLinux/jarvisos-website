@@ -1,0 +1,63 @@
+#!/bin/bash
+set -e
+
+# Load environment variables from .env file
+if [ -f .env ]; then
+    export $(cat .env | grep -v '^#' | xargs)
+else
+    echo "Error: .env file not found!"
+    echo "Please create a .env file with the following variables:"
+    echo "  VPS_USER=your_username"
+    echo "  VPS_HOST=your_host_or_ip"
+    echo "  VPS_DIR=/path/to/site/directory"
+    exit 1
+fi
+
+# Check if required variables are set
+if [ -z "$VPS_USER" ] || [ -z "$VPS_HOST" ] || [ -z "$VPS_DIR" ]; then
+    echo "Error: Missing required environment variables!"
+    echo "Please ensure .env file contains:"
+    echo "  VPS_USER=your_username"
+    echo "  VPS_HOST=your_host_or_ip"
+    echo "  VPS_DIR=/path/to/site/directory"
+    exit 1
+fi
+
+# ── Build Astro site ───────────────────────────────────────────────────────────
+echo "Building Astro site..."
+npm run build
+
+# ── Deploy static files ────────────────────────────────────────────────────────
+echo "Deploying static site to ${VPS_USER}@${VPS_HOST}:${VPS_DIR}"
+rsync -arzvh "$PWD/dist/" --delete "${VPS_USER}@${VPS_HOST}:${VPS_DIR}"
+
+# ── Deploy contact handler ─────────────────────────────────────────────────────
+echo "Deploying contact handler..."
+ssh "${VPS_USER}@${VPS_HOST}" "mkdir -p ~/contact-handler"
+rsync -arzvh "$PWD/server/contact_handler.py" \
+             "$PWD/server/contact-handler.service" \
+             "${VPS_USER}@${VPS_HOST}:~/contact-handler/"
+
+# Install systemd service if not already present, then reload
+ssh "${VPS_USER}@${VPS_HOST}" bash <<'REMOTE'
+  SERVICE_SRC="$HOME/contact-handler/contact-handler.service"
+  SERVICE_DST="/etc/systemd/system/contact-handler.service"
+
+  # Copy service file if it changed or doesn't exist
+  if [ ! -f "$SERVICE_DST" ] || ! diff -q "$SERVICE_SRC" "$SERVICE_DST" > /dev/null 2>&1; then
+    sudo cp "$SERVICE_SRC" "$SERVICE_DST"
+    sudo systemctl daemon-reload
+    sudo systemctl enable contact-handler
+  fi
+
+  if [ ! -f /etc/contact-handler.env ]; then
+    echo "⚠️  WARNING: /etc/contact-handler.env not found on VPS."
+    echo "   Create it from server/contact-handler.env.example before the handler can start."
+    echo "   Contact form submissions will fail until this is done."
+  else
+    sudo systemctl restart contact-handler
+    echo "Contact handler status: $(sudo systemctl is-active contact-handler)"
+  fi
+REMOTE
+
+echo "Deployment successful!"
