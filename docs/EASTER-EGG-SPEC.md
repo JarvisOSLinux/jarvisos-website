@@ -1,6 +1,6 @@
 # Easter Egg Pages — Content Spec
 
-The easter egg pages (`/freedom-control` and `/AI-control`) are linked from the
+The easter egg pages (`/freedom-control` and `/ai-control`) are linked from the
 presentation's closing slide: "Which reality do you choose? A or B." Audience
 members scan a QR code and land on one of these pages.
 
@@ -41,7 +41,7 @@ members scan a QR code and land on one of these pages.
 
 ---
 
-## /AI-control (Choice B — "AI Working On You")
+## /ai-control (Choice B — "AI Working On You")
 
 **Theme**: Red (#ff3b5c), oppressive, confrontational
 **Tone**: Direct, factual, urgent — not fearmongering, but unflinching
