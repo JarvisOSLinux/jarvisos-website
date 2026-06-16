@@ -1,11 +1,29 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const downloadSchema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "JARVIS OS",
+  operatingSystem: "Linux",
+  applicationCategory: "OperatingSystem",
+  description:
+    "Bootable Arch Linux ISO with Ollama local LLM inference, KDE Plasma 6, MCP orchestration layer, and the JARVIS AI assistant daemon. Purpose-built for LLM security research.",
+  url: "https://jarvisoslinux.org",
+  downloadUrl: "https://jarvisoslinux.org/download",
+  author: {
+    "@type": "Organization",
+    name: "JarvisOSLinux",
+    url: "https://github.com/JarvisOSLinux",
+  },
+});
 ---
 
 <BaseLayout
-  title="Download"
-  description="Download the latest JARVIS OS ISO — an AI-native Arch Linux distribution."
+  title="Download JARVIS OS ISO"
+  description="Download the latest JARVIS OS ISO — AI-native Arch Linux with Ollama, KDE Plasma 6, and MCP orchestration. Verify SHA-512 checksums before install."
 >
+  <script slot="head" type="application/ld+json" set:html={downloadSchema} />
   <section class="section">
     <div class="container">
       <span class="section-label">Download</span>

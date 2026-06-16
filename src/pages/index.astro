@@ -1,8 +1,51 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const softwareSchema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "JARVIS OS",
+  operatingSystem: "Linux",
+  applicationCategory: "OperatingSystem",
+  description:
+    "An AI-native operating system built on Arch Linux that gives a large language model full OS privileges to empirically study LLM security threats including prompt injection, context window saturation, and MCP privilege escalation.",
+  url: "https://jarvisoslinux.org",
+  downloadUrl: "https://jarvisoslinux.org/download",
+  softwareVersion: "latest",
+  license: "https://opensource.org/licenses/MIT",
+  author: {
+    "@type": "Organization",
+    name: "JarvisOSLinux",
+    url: "https://github.com/JarvisOSLinux",
+  },
+  keywords:
+    "AI-native OS, LLM security, Model Context Protocol, prompt injection, Arch Linux, Ollama, MCP security threats",
+});
+
+const researchSchema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "ResearchProject",
+  name: "JARVIS OS — LLM-OS Security Research",
+  description:
+    "Empirical study of security threats that emerge when LLMs gain OS-level privileges. Produces the first threat taxonomy for AI-native operating systems.",
+  url: "https://jarvisoslinux.org/research",
+  funder: {
+    "@type": "CollegeOrUniversity",
+    name: "Washington State University Everett",
+  },
+  member: [
+    { "@type": "Person", name: "Yakup Atahanov" },
+    { "@type": "Person", name: "Toufic Majdaleni" },
+  ],
+});
 ---
 
-<BaseLayout title="Home">
+<BaseLayout
+  fullTitle="JARVIS OS — AI-Native Operating System & LLM Security Research Platform"
+  description="An Arch Linux research OS that gives an LLM full system privileges to study prompt injection, context saturation, MCP security threats, and privilege escalation. Built at WSU Everett."
+>
+  <script slot="head" type="application/ld+json" set:html={softwareSchema} />
+  <script slot="head" type="application/ld+json" set:html={researchSchema} />
   <!-- Hero -->
   <section class="hero">
     <div class="container">

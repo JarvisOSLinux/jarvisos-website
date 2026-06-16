@@ -2,6 +2,52 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ThreatCard from "../components/ThreatCard.astro";
 
+const scholarlySchema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  headline:
+    "Security Threats in AI-Native Operating Systems: An Empirical Study Using Privilege-Escalated LLM Agents",
+  description:
+    "First empirical threat taxonomy for AI-native operating systems, identifying six threat classes including Bloated Context — the first identification of context window saturation as a discrete security threat.",
+  author: [
+    {
+      "@type": "Person",
+      name: "Yakup Atahanov",
+      affiliation: {
+        "@type": "CollegeOrUniversity",
+        name: "Washington State University Everett",
+      },
+    },
+    {
+      "@type": "Person",
+      name: "Toufic Majdaleni",
+      affiliation: {
+        "@type": "CollegeOrUniversity",
+        name: "Washington State University Everett",
+      },
+    },
+  ],
+  about: "LLM security threats, AI-native operating systems, Model Context Protocol",
+  keywords: [
+    "LLM security",
+    "AI-native operating system",
+    "prompt injection",
+    "context window saturation",
+    "MCP security",
+    "privilege escalation",
+    "bloated context",
+    "Model Context Protocol threats",
+  ],
+  isPartOf: {
+    "@type": "Event",
+    name: "SURCA 2026",
+    organizer: {
+      "@type": "CollegeOrUniversity",
+      name: "Washington State University",
+    },
+  },
+});
+
 const threats = [
   {
     title: "Malicious MCP Servers",
@@ -49,9 +95,10 @@ const threats = [
 ---
 
 <BaseLayout
-  title="Research"
-  description="Threat taxonomy for LLM-OS security — derived from building and operating JARVIS OS at WSU Everett."
+  title="LLM-OS Security Research"
+  description="Empirical threat taxonomy for AI-native operating systems — prompt injection, bloated context, unauthorized sudo via MCP, and privilege escalation. Research by Yakup Atahanov & Toufic Majdaleni, WSU Everett."
 >
+  <script slot="head" type="application/ld+json" set:html={scholarlySchema} />
   <section class="section">
     <div class="container">
       <span class="section-label">Research</span>
