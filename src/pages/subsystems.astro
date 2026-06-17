@@ -135,9 +135,9 @@ const subsystems = [
     </div>
   </section>
 
-  <section class="section" style="padding-top: 0;">
+  <section class="section section--flush-top">
     <div class="container">
-      <div class="grid-2">
+      <div class="subsystems-grid">
         {subsystems.map((s) => <SubsystemCard {...s} />)}
       </div>
     </div>
@@ -167,6 +167,45 @@ const subsystems = [
   .sub-intro {
     font-size: 1.05rem;
     max-width: 640px;
+    line-height: 1.7;
+  }
+
+  /* Asymmetric subsystem grid: 3-col, every 4th card spans 2 cols */
+  .subsystems-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-xl);
+  }
+
+  /* First card and 6th card get extra width for variety */
+  .subsystems-grid > :nth-child(1) {
+    grid-column: span 2;
+  }
+
+  .subsystems-grid > :nth-child(6) {
+    grid-column: span 2;
+  }
+
+  @media (max-width: 900px) {
+    .subsystems-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .subsystems-grid > :nth-child(1),
+    .subsystems-grid > :nth-child(6) {
+      grid-column: span 2;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .subsystems-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .subsystems-grid > :nth-child(1),
+    .subsystems-grid > :nth-child(6) {
+      grid-column: span 1;
+    }
   }
 
   .repo-tree {

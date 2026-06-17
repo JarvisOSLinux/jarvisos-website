@@ -100,17 +100,17 @@ const researchSchema = JSON.stringify({
     </div>
   </section>
 
-  <!-- Features overview -->
+  <!-- Features overview — asymmetric layout -->
   <section class="section">
     <div class="container">
       <span class="section-label">Architecture</span>
       <h2 class="section-title">How JARVIS OS works</h2>
-      <div class="grid-3">
-        <div class="card">
+      <div class="features-grid">
+        <div class="card features-card--lead">
           <h3>Local LLM Inference</h3>
           <p>
             Powered by Ollama — all inference runs on-device with zero cloud dependencies.
-            Full privacy, full control.
+            Full privacy, full control. No API keys, no rate limits, no telemetry.
           </p>
         </div>
         <div class="card">
@@ -141,7 +141,7 @@ const researchSchema = JSON.stringify({
             dependencies, supports auto and manual partitioning.
           </p>
         </div>
-        <div class="card">
+        <div class="card features-card--wide">
           <h3>Security Research Platform</h3>
           <p>
             Purpose-built to expose and document the real security threats that emerge when
@@ -213,20 +213,22 @@ const researchSchema = JSON.stringify({
   /* Hero */
   .hero {
     padding: var(--space-4xl) 0;
-    min-height: 70vh;
+    min-height: 72vh;
     display: flex;
     align-items: center;
   }
 
   .hero-content {
     max-width: 760px;
+    animation: fade-up 0.7s cubic-bezier(0.4, 0, 0.2, 1) both;
   }
 
   .hero-logo {
-    width: min(420px, 100%);
+    width: min(380px, 100%);
     height: auto;
     margin-bottom: var(--space-xl);
     border-radius: 6px;
+    opacity: 0.92;
   }
 
   .hero h1 {
@@ -234,9 +236,10 @@ const researchSchema = JSON.stringify({
   }
 
   .hero-sub {
-    font-size: 1.05rem;
+    font-size: 1.08rem;
     margin-bottom: var(--space-xl);
-    max-width: 640px;
+    max-width: 600px;
+    line-height: 1.7;
   }
 
   .hero-actions {
@@ -249,9 +252,10 @@ const researchSchema = JSON.stringify({
   .hero-meta {
     display: flex;
     gap: var(--space-md);
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     color: var(--text-muted);
     flex-wrap: wrap;
+    align-items: center;
   }
 
   /* Finding banner */
@@ -259,6 +263,9 @@ const researchSchema = JSON.stringify({
     padding: var(--space-2xl);
     border-radius: 6px;
     background: var(--bg-card);
+    border-left: 3px solid var(--red);
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
   }
 
   .finding-banner h2 {
@@ -267,6 +274,8 @@ const researchSchema = JSON.stringify({
 
   .finding-banner p {
     max-width: 640px;
+    font-size: 0.95rem;
+    line-height: 1.7;
   }
 
   /* Threat overview */
@@ -285,6 +294,31 @@ const researchSchema = JSON.stringify({
     background: var(--bg-card);
     border: 1px solid var(--border);
     font-size: 0.9rem;
+    transition: background var(--transition-fast), border-color var(--transition-fast), padding-left var(--transition-base);
+    position: relative;
+  }
+
+  .threat-row::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--cyan);
+    transform: scaleY(0);
+    transition: transform var(--transition-base);
+    transform-origin: bottom;
+  }
+
+  .threat-row:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-glow);
+    padding-left: calc(var(--space-lg) + 4px);
+  }
+
+  .threat-row:hover::before {
+    transform: scaleY(1);
   }
 
   .threat-row:first-child {
@@ -295,6 +329,32 @@ const researchSchema = JSON.stringify({
     border-radius: 0 0 6px 6px;
   }
 
+  /* Features asymmetric grid */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-xl);
+  }
+
+  .features-card--lead {
+    grid-column: span 2;
+  }
+
+  .features-card--wide {
+    grid-column: span 2;
+  }
+
+  @media (max-width: 900px) {
+    .features-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .features-card--lead,
+    .features-card--wide {
+      grid-column: span 2;
+    }
+  }
+
   @media (max-width: 768px) {
     .hero {
       min-height: auto;
@@ -303,7 +363,17 @@ const researchSchema = JSON.stringify({
 
     .hero-meta {
       flex-direction: column;
+      align-items: flex-start;
       gap: var(--space-xs);
+    }
+
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .features-card--lead,
+    .features-card--wide {
+      grid-column: span 1;
     }
   }
 </style>
