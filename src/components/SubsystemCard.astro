@@ -12,6 +12,7 @@ const { name, repo, description, tags = [] } = Astro.props;
 <a href={`https://github.com/JarvisOSLinux/${repo}`} target="_blank" rel="noopener noreferrer" class="card subsystem-card">
   <div class="subsystem-header">
     <span class="mono subsystem-repo">JarvisOSLinux/{repo}</span>
+    <span class="subsystem-arrow" aria-hidden="true">→</span>
   </div>
   <h3 class="subsystem-name">{name}</h3>
   <p class="subsystem-desc">{description}</p>
@@ -32,27 +33,51 @@ const { name, repo, description, tags = [] } = Astro.props;
   }
 
   .subsystem-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     margin-bottom: var(--space-md);
   }
 
   .subsystem-repo {
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     color: var(--cyan-dim);
+    letter-spacing: 0.03em;
+  }
+
+  .subsystem-arrow {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    transform: translateX(-4px);
+    opacity: 0;
+    transition: transform var(--transition-base), opacity var(--transition-base), color var(--transition-base);
+    flex-shrink: 0;
+  }
+
+  .subsystem-card:hover .subsystem-arrow {
+    transform: translateX(0);
+    opacity: 1;
+    color: var(--cyan);
   }
 
   .subsystem-name {
     font-size: 1.15rem;
     margin-bottom: var(--space-sm);
+    transition: color var(--transition-fast);
+  }
+
+  .subsystem-card:hover .subsystem-name {
+    color: var(--cyan);
   }
 
   .subsystem-desc {
-    font-size: 0.85rem;
-    line-height: 1.5;
+    font-size: 0.875rem;
+    line-height: 1.6;
   }
 
   .subsystem-tags {
     display: flex;
-    gap: var(--space-sm);
+    gap: var(--space-xs);
     flex-wrap: wrap;
     margin-top: var(--space-md);
   }

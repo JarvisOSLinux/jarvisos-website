@@ -60,6 +60,12 @@ const links = [
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
     z-index: 1000;
+    transition: border-color var(--transition-base), background var(--transition-slow);
+  }
+
+  .nav.scrolled {
+    background: #07090ff5;
+    border-bottom-color: var(--border-glow);
   }
 
   .nav-inner {
@@ -104,20 +110,43 @@ const links = [
     font-family: var(--font-mono);
     font-size: 0.8rem;
     color: var(--text-secondary);
-    padding: 0.4em 0.8em;
+    padding: 0.5em 0.9em;
     border-radius: 4px;
-    transition: all var(--transition-fast);
+    transition: color var(--transition-fast), background var(--transition-fast);
     text-transform: lowercase;
+    position: relative;
   }
 
-  .nav-link:hover,
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    bottom: 2px;
+    left: 0.9em;
+    right: 0.9em;
+    height: 1px;
+    background: var(--cyan);
+    transform: scaleX(0);
+    transition: transform var(--transition-base);
+    transform-origin: center;
+  }
+
+  .nav-link:hover {
+    color: var(--cyan);
+    background: #00c8ff08;
+  }
+
+  .nav-link:hover::after {
+    transform: scaleX(1);
+  }
+
   .nav-link.active {
     color: var(--cyan);
     background: #00c8ff0a;
+    border: 1px solid var(--border-glow);
   }
 
-  .nav-link.active {
-    border: 1px solid var(--border-glow);
+  .nav-link.active::after {
+    transform: scaleX(1);
   }
 
   .nav-link-gh {
@@ -157,12 +186,29 @@ const links = [
       flex-direction: column;
       background: var(--bg-surface);
       border-bottom: 1px solid var(--border);
-      padding: var(--space-md);
-      gap: var(--space-xs);
+      padding: var(--space-md) var(--space-lg);
+      gap: 0;
     }
 
     .nav-links.open {
       display: flex;
+    }
+
+    .nav-link {
+      padding: 0.75em 0.5em;
+      border-radius: 0;
+      border-bottom: 1px solid var(--border-subtle);
+      width: 100%;
+    }
+
+    .nav-link::after {
+      display: none;
+    }
+
+    .nav-link.active {
+      border: none;
+      border-bottom: 1px solid var(--border-subtle);
+      background: #00c8ff08;
     }
   }
 </style>
@@ -170,7 +216,21 @@ const links = [
 <script>
   const toggle = document.getElementById("nav-toggle");
   const links = document.getElementById("nav-links");
+  const nav = document.querySelector(".nav");
+
   toggle?.addEventListener("click", () => {
     links?.classList.toggle("open");
   });
+
+  // Scroll-aware nav border
+  const onScroll = () => {
+    if (window.scrollY > 60) {
+      nav?.classList.add("scrolled");
+    } else {
+      nav?.classList.remove("scrolled");
+    }
+  };
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
 </script>

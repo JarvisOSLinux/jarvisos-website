@@ -1,8 +1,51 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const softwareSchema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "JARVIS OS",
+  operatingSystem: "Linux",
+  applicationCategory: "OperatingSystem",
+  description:
+    "An AI-native operating system built on Arch Linux that gives a large language model full OS privileges to empirically study LLM security threats including prompt injection, context window saturation, and MCP privilege escalation.",
+  url: "https://jarvisoslinux.org",
+  downloadUrl: "https://jarvisoslinux.org/download",
+  softwareVersion: "latest",
+  license: "https://opensource.org/licenses/MIT",
+  author: {
+    "@type": "Organization",
+    name: "JarvisOSLinux",
+    url: "https://github.com/JarvisOSLinux",
+  },
+  keywords:
+    "AI-native OS, LLM security, Model Context Protocol, prompt injection, Arch Linux, Ollama, MCP security threats",
+});
+
+const researchSchema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "ResearchProject",
+  name: "JARVIS OS — LLM-OS Security Research",
+  description:
+    "Empirical study of security threats that emerge when LLMs gain OS-level privileges. Produces the first threat taxonomy for AI-native operating systems.",
+  url: "https://jarvisoslinux.org/research",
+  funder: {
+    "@type": "CollegeOrUniversity",
+    name: "Washington State University Everett",
+  },
+  member: [
+    { "@type": "Person", name: "Yakup Atahanov" },
+    { "@type": "Person", name: "Toufic Majdaleni" },
+  ],
+});
 ---
 
-<BaseLayout title="Home">
+<BaseLayout
+  fullTitle="JARVIS OS — AI-Native Operating System & LLM Security Research Platform"
+  description="An Arch Linux research OS that gives an LLM full system privileges to study prompt injection, context saturation, MCP security threats, and privilege escalation. Built at WSU Everett."
+>
+  <script slot="head" type="application/ld+json" set:html={softwareSchema} />
+  <script slot="head" type="application/ld+json" set:html={researchSchema} />
   <!-- Hero -->
   <section class="hero">
     <div class="container">
@@ -57,17 +100,17 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     </div>
   </section>
 
-  <!-- Features overview -->
+  <!-- Features overview — asymmetric layout -->
   <section class="section">
     <div class="container">
       <span class="section-label">Architecture</span>
       <h2 class="section-title">How JARVIS OS works</h2>
-      <div class="grid-3">
-        <div class="card">
+      <div class="features-grid">
+        <div class="card features-card--lead">
           <h3>Local LLM Inference</h3>
           <p>
             Powered by Ollama — all inference runs on-device with zero cloud dependencies.
-            Full privacy, full control.
+            Full privacy, full control. No API keys, no rate limits, no telemetry.
           </p>
         </div>
         <div class="card">
@@ -98,7 +141,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
             dependencies, supports auto and manual partitioning.
           </p>
         </div>
-        <div class="card">
+        <div class="card features-card--wide">
           <h3>Security Research Platform</h3>
           <p>
             Purpose-built to expose and document the real security threats that emerge when
@@ -170,20 +213,22 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   /* Hero */
   .hero {
     padding: var(--space-4xl) 0;
-    min-height: 70vh;
+    min-height: 72vh;
     display: flex;
     align-items: center;
   }
 
   .hero-content {
     max-width: 760px;
+    animation: fade-up 0.7s cubic-bezier(0.4, 0, 0.2, 1) both;
   }
 
   .hero-logo {
-    width: min(420px, 100%);
+    width: min(380px, 100%);
     height: auto;
     margin-bottom: var(--space-xl);
     border-radius: 6px;
+    opacity: 0.92;
   }
 
   .hero h1 {
@@ -191,9 +236,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   }
 
   .hero-sub {
-    font-size: 1.05rem;
+    font-size: 1.08rem;
     margin-bottom: var(--space-xl);
-    max-width: 640px;
+    max-width: 600px;
+    line-height: 1.7;
   }
 
   .hero-actions {
@@ -206,9 +252,10 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   .hero-meta {
     display: flex;
     gap: var(--space-md);
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     color: var(--text-muted);
     flex-wrap: wrap;
+    align-items: center;
   }
 
   /* Finding banner */
@@ -216,6 +263,9 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     padding: var(--space-2xl);
     border-radius: 6px;
     background: var(--bg-card);
+    border-left: 3px solid var(--red);
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
   }
 
   .finding-banner h2 {
@@ -224,6 +274,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
   .finding-banner p {
     max-width: 640px;
+    font-size: 0.95rem;
+    line-height: 1.7;
   }
 
   /* Threat overview */
@@ -242,6 +294,31 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     background: var(--bg-card);
     border: 1px solid var(--border);
     font-size: 0.9rem;
+    transition: background var(--transition-fast), border-color var(--transition-fast), padding-left var(--transition-base);
+    position: relative;
+  }
+
+  .threat-row::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--cyan);
+    transform: scaleY(0);
+    transition: transform var(--transition-base);
+    transform-origin: bottom;
+  }
+
+  .threat-row:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-glow);
+    padding-left: calc(var(--space-lg) + 4px);
+  }
+
+  .threat-row:hover::before {
+    transform: scaleY(1);
   }
 
   .threat-row:first-child {
@@ -252,6 +329,32 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     border-radius: 0 0 6px 6px;
   }
 
+  /* Features asymmetric grid */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-xl);
+  }
+
+  .features-card--lead {
+    grid-column: span 2;
+  }
+
+  .features-card--wide {
+    grid-column: span 2;
+  }
+
+  @media (max-width: 900px) {
+    .features-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .features-card--lead,
+    .features-card--wide {
+      grid-column: span 2;
+    }
+  }
+
   @media (max-width: 768px) {
     .hero {
       min-height: auto;
@@ -260,7 +363,17 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
     .hero-meta {
       flex-direction: column;
+      align-items: flex-start;
       gap: var(--space-xs);
+    }
+
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .features-card--lead,
+    .features-card--wide {
+      grid-column: span 1;
     }
   }
 </style>

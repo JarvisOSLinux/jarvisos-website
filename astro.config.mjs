@@ -1,6 +1,8 @@
 import { defineConfig } from "astro/config";
+import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
-  site: "https://jarvisos.github.io",
+  site: "https://jarvisoslinux.org",
   output: "static",
+  integrations: [sitemap()],
 });

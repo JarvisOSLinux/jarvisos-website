@@ -4,14 +4,50 @@ import Footer from "../components/Footer.astro";
 import "../styles/global.css";
 
 interface Props {
-  title: string;
+  title?: string;
   description?: string;
+  fullTitle?: string;
 }
 
 const {
   title,
   description = "JARVIS OS — An AI-native operating system built on Arch Linux for researching LLM-OS security threats.",
+  fullTitle,
 } = Astro.props;
+
+const pageTitle =
+  fullTitle ??
+  (title ? `${title} | JARVIS OS` : "JARVIS OS — AI-Native Operating System");
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL("/assets/jarvisos_cyan_logo_text.jpg", Astro.site);
+
+const websiteSchema = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "JARVIS OS",
+  url: "https://jarvisoslinux.org",
+  description:
+    "AI-native operating system built on Arch Linux for LLM security research at WSU Everett.",
+  author: [
+    {
+      "@type": "Person",
+      name: "Yakup Atahanov",
+      affiliation: {
+        "@type": "CollegeOrUniversity",
+        name: "Washington State University Everett",
+      },
+    },
+    {
+      "@type": "Person",
+      name: "Toufic Majdaleni",
+      affiliation: {
+        "@type": "CollegeOrUniversity",
+        name: "Washington State University Everett",
+      },
+    },
+  ],
+});
 ---
 
 <!doctype html>
@@ -21,8 +57,28 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
-    <title>{title} | JARVIS OS</title>
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="JARVIS OS" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={ogImage} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <title>{pageTitle}</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <script type="application/ld+json" set:html={websiteSchema} />
+
+    <slot name="head" />
   </head>
   <body>
     <Nav />

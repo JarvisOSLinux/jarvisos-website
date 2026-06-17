@@ -4,12 +4,15 @@ interface Props {
   severity: "critical" | "high" | "medium" | "novel";
   description: string;
   mitigation: string;
+  index?: number;
 }
 
-const { title, severity, description, mitigation } = Astro.props;
+const { title, severity, description, mitigation, index } = Astro.props;
+const num = index !== undefined ? String(index + 1).padStart(2, "0") : undefined;
 ---
 
 <div class="card threat-card">
+  {num && <span class="threat-num mono" aria-hidden="true">{num}</span>}
   <div class="threat-header">
     <span class:list={["tag", `tag-${severity}`]}>{severity}</span>
   </div>
@@ -22,6 +25,37 @@ const { title, severity, description, mitigation } = Astro.props;
 </div>
 
 <style>
+  .threat-card {
+    position: relative;
+  }
+
+  .threat-card::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--cyan);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform var(--transition-base);
+    border-radius: 2px 0 0 2px;
+  }
+
+  .threat-card:hover::after {
+    transform: scaleY(1);
+  }
+
+  .threat-num {
+    display: block;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    letter-spacing: 0.12em;
+    margin-bottom: var(--space-sm);
+    line-height: 1;
+  }
+
   .threat-header {
     display: flex;
     align-items: center;
@@ -34,14 +68,20 @@ const { title, severity, description, mitigation } = Astro.props;
   }
 
   .threat-desc {
-    font-size: 0.85rem;
-    line-height: 1.5;
+    font-size: 0.875rem;
+    line-height: 1.65;
   }
 
   .threat-mitigation {
-    margin-top: var(--space-md);
+    margin-top: var(--space-lg);
     padding-top: var(--space-md);
-    border-top: 1px solid var(--border);
+    border-top: 1px solid var(--border-subtle);
+    background: #00e67606;
+    padding: var(--space-md);
+    border-radius: 0 0 4px 4px;
+    margin-left: calc(-1 * var(--space-xl));
+    margin-right: calc(-1 * var(--space-xl));
+    margin-bottom: calc(-1 * var(--space-xl));
   }
 
   .mitigation-label {
@@ -54,8 +94,8 @@ const { title, severity, description, mitigation } = Astro.props;
   }
 
   .mitigation-text {
-    font-size: 0.8rem;
-    line-height: 1.4;
+    font-size: 0.82rem;
+    line-height: 1.5;
     color: var(--text-muted);
   }
 </style>
